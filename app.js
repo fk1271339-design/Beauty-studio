@@ -1,6 +1,6 @@
 /* ==========================================================================
    ARIA LAURENT — HAUTE MAKEUP & BEAUTY STUDIO
-   Application Logic & Micro-Interactions
+   Application Logic & Micro-Interactions (Enhanced)
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -9,7 +9,79 @@ document.addEventListener('DOMContentLoaded', () => {
     window.lucide.createIcons();
   }
 
-  // 2. Custom Magnetic Cursor
+  // ======================================================================
+  // PRELOADER
+  // ======================================================================
+  const preloader = document.getElementById('preloader');
+  if (preloader) {
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        preloader.classList.add('hidden');
+        // Trigger hero animations after preloader hides
+        triggerHeroAnimations();
+      }, 1800);
+    });
+
+    // Fallback: remove preloader after 4s max
+    setTimeout(() => {
+      preloader.classList.add('hidden');
+      triggerHeroAnimations();
+    }, 4000);
+  } else {
+    triggerHeroAnimations();
+  }
+
+  // ======================================================================
+  // HERO TEXT REVEAL + ENTRY ANIMATIONS
+  // ======================================================================
+  function triggerHeroAnimations() {
+    const heroSection = document.getElementById('home');
+    const heroHeadline = document.getElementById('heroHeadline');
+
+    if (heroSection) {
+      heroSection.classList.add('hero-loaded');
+    }
+
+    if (heroHeadline) {
+      setTimeout(() => {
+        heroHeadline.classList.add('text-revealed');
+      }, 200);
+    }
+  }
+
+  // ======================================================================
+  // FLOATING SPARKLE PARTICLES (HERO)
+  // ======================================================================
+  const sparkleCanvas = document.getElementById('sparkleCanvas');
+  if (sparkleCanvas) {
+    function createSparkle() {
+      const sparkle = document.createElement('div');
+      sparkle.classList.add('sparkle');
+      sparkle.style.left = Math.random() * 100 + '%';
+      sparkle.style.top = (40 + Math.random() * 50) + '%';
+      sparkle.style.width = (2 + Math.random() * 3) + 'px';
+      sparkle.style.height = sparkle.style.width;
+      sparkle.style.animationDuration = (3 + Math.random() * 4) + 's';
+      sparkle.style.animationDelay = Math.random() * 2 + 's';
+      sparkleCanvas.appendChild(sparkle);
+
+      // Remove after animation completes
+      setTimeout(() => {
+        sparkle.remove();
+      }, 8000);
+    }
+
+    // Create sparkles periodically
+    setInterval(createSparkle, 600);
+    // Initial burst
+    for (let i = 0; i < 8; i++) {
+      setTimeout(createSparkle, i * 200);
+    }
+  }
+
+  // ======================================================================
+  // CUSTOM MAGNETIC CURSOR
+  // ======================================================================
   const cursor = document.getElementById('cursor');
   const cursorFollower = document.getElementById('cursorFollower');
 
@@ -44,17 +116,83 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 3. Header Scroll Glassmorphism Effect
+  // ======================================================================
+  // HEADER SCROLL GLASSMORPHISM + ACTIVE NAV SPY SCROLL
+  // ======================================================================
   const navbar = document.getElementById('navbar');
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
+  const navLinks = document.querySelectorAll('.nav-link:not(.nav-cta)');
+  const sections = document.querySelectorAll('section[id]');
+
+  function handleScroll() {
+    const scrollY = window.scrollY;
+
+    // Navbar background
+    if (scrollY > 50) {
       navbar.classList.add('scrolled');
     } else {
       navbar.classList.remove('scrolled');
     }
-  });
 
-  // 4. Mobile Drawer Navigation
+    // Active nav spy
+    let currentSection = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - 200;
+      const sectionHeight = section.offsetHeight;
+      if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+        currentSection = section.getAttribute('id');
+      }
+    });
+
+    navLinks.forEach(link => {
+      link.classList.remove('spy-active');
+      const href = link.getAttribute('href');
+      if (href && href === '#' + currentSection) {
+        link.classList.add('spy-active');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', handleScroll);
+  handleScroll();
+
+  // ======================================================================
+  // BACK TO TOP BUTTON
+  // ======================================================================
+  const backToTop = document.getElementById('backToTop');
+  if (backToTop) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 600) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    });
+  }
+
+  // ======================================================================
+  // SCROLL REVEAL (IntersectionObserver)
+  // ======================================================================
+  const revealElements = document.querySelectorAll('.reveal, .reveal-stagger');
+
+  if (revealElements.length > 0) {
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -50px 0px'
+    });
+
+    revealElements.forEach(el => revealObserver.observe(el));
+  }
+
+  // ======================================================================
+  // MOBILE DRAWER NAVIGATION
+  // ======================================================================
   const mobileToggle = document.getElementById('mobileToggle');
   const navMenu = document.getElementById('navMenu');
 
@@ -70,7 +208,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 5. Interactive Before & After Transformation Slider
+  // ======================================================================
+  // BEFORE & AFTER TRANSFORMATION SLIDER
+  // ======================================================================
   const baContainer = document.getElementById('baSlider');
   const baAfter = document.getElementById('baAfter');
   const baHandle = document.getElementById('baHandle');
@@ -120,7 +260,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 6. Portfolio Filtering
+  // ======================================================================
+  // PORTFOLIO FILTERING
+  // ======================================================================
   const filterBtns = document.querySelectorAll('.filter-btn');
   const portfolioCards = document.querySelectorAll('.portfolio-card');
 
@@ -150,7 +292,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 7. Lightbox Modal
+  // ======================================================================
+  // LIGHTBOX MODAL
+  // ======================================================================
   const lightboxModal = document.getElementById('lightboxModal');
   const lightboxImg = document.getElementById('lightboxImg');
   const lightboxTitle = document.getElementById('lightboxTitle');
@@ -194,7 +338,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 8. Style Finder Quiz Modal
+  // ======================================================================
+  // STYLE FINDER QUIZ MODAL
+  // ======================================================================
   const openQuizBtn = document.getElementById('openQuizBtn');
   const quizModal = document.getElementById('quizModal');
   const quizClose = document.getElementById('quizClose');
@@ -248,7 +394,66 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 9. Booking Price Calculator
+  // ======================================================================
+  // TESTIMONIALS CAROUSEL
+  // ======================================================================
+  const testimonialsTrack = document.getElementById('testimonialsTrack');
+  const carouselPrev = document.getElementById('carouselPrev');
+  const carouselNext = document.getElementById('carouselNext');
+  const carouselDots = document.querySelectorAll('.carousel-dot');
+
+  if (testimonialsTrack && carouselPrev && carouselNext) {
+    let currentSlide = 0;
+    const totalSlides = document.querySelectorAll('.testimonial-slide').length;
+    let autoSlideInterval;
+
+    function goToSlide(index) {
+      if (index < 0) index = totalSlides - 1;
+      if (index >= totalSlides) index = 0;
+      currentSlide = index;
+      testimonialsTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+      carouselDots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentSlide);
+      });
+    }
+
+    carouselPrev.addEventListener('click', () => {
+      goToSlide(currentSlide - 1);
+      resetAutoSlide();
+    });
+
+    carouselNext.addEventListener('click', () => {
+      goToSlide(currentSlide + 1);
+      resetAutoSlide();
+    });
+
+    carouselDots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const slideIndex = parseInt(dot.getAttribute('data-slide'));
+        goToSlide(slideIndex);
+        resetAutoSlide();
+      });
+    });
+
+    // Auto-slide every 6 seconds
+    function startAutoSlide() {
+      autoSlideInterval = setInterval(() => {
+        goToSlide(currentSlide + 1);
+      }, 6000);
+    }
+
+    function resetAutoSlide() {
+      clearInterval(autoSlideInterval);
+      startAutoSlide();
+    }
+
+    startAutoSlide();
+  }
+
+  // ======================================================================
+  // BOOKING PRICE CALCULATOR
+  // ======================================================================
   const serviceTypeSelect = document.getElementById('serviceType');
   const guestCountSelect = document.getElementById('guestCount');
   const bookingCalcSummary = document.getElementById('bookingCalcSummary');
@@ -270,7 +475,9 @@ document.addEventListener('DOMContentLoaded', () => {
     updateBookingTotal();
   }
 
-  // 10. Booking Form Submission
+  // ======================================================================
+  // BOOKING FORM SUBMISSION
+  // ======================================================================
   const bookingForm = document.getElementById('bookingForm');
   const toastNotification = document.getElementById('toastNotification');
 
@@ -295,7 +502,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 11. Animated Statistics Counters
+  // ======================================================================
+  // ANIMATED STATISTICS COUNTERS
+  // ======================================================================
   const statNumbers = document.querySelectorAll('.stat-number');
   let animated = false;
 
@@ -332,4 +541,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.addEventListener('scroll', checkStatsScroll);
   checkStatsScroll();
+
+  // ======================================================================
+  // KEYBOARD ACCESSIBILITY: ESC to close modals
+  // ======================================================================
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (lightboxModal) lightboxModal.classList.remove('active');
+      if (quizModal) quizModal.classList.remove('active');
+    }
+  });
 });

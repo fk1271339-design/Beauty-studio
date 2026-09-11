@@ -15,6 +15,13 @@
 </head>
 <body>
 
+  <!-- PRELOADER -->
+  <div class="preloader" id="preloader">
+    <div class="preloader-logo">Aria Laurent</div>
+    <div class="preloader-sub">Haute Beauté Studio</div>
+    <div class="preloader-line"></div>
+  </div>
+
   <!-- Custom Magnetic Cursor -->
   <div class="custom-cursor" id="cursor"></div>
   <div class="custom-cursor-follower" id="cursorFollower"></div>
@@ -54,15 +61,18 @@
       <div class="hero-bg-overlay"></div>
     </div>
 
+    <!-- Sparkle Particles -->
+    <div class="sparkle-canvas" id="sparkleCanvas"></div>
+
     <div class="container">
       <div class="hero-content">
         <div class="hero-badge">
           <i data-lucide="award"></i> Vogue & Harper's Bazaar Featured Artist
         </div>
 
-        <h1 class="hero-headline">
-          Beauty,
-          <span class="italic">Refined.</span>
+        <h1 class="hero-headline" id="heroHeadline">
+          <span class="word"><span class="word-inner">Beauty,</span></span>
+          <span class="word italic"><span class="word-inner">Refined.</span></span>
         </h1>
 
         <p class="hero-subheading">
@@ -105,11 +115,18 @@
     </a>
   </section>
 
+  <!-- Section Divider -->
+  <div class="section-divider">
+    <svg viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,0 C300,55 900,55 1200,0 L1200,60 L0,60 Z" fill="#151212"/>
+    </svg>
+  </div>
+
   <!-- BEFORE & AFTER TRANSFORMATION SLIDER -->
   <section class="transformation-section" id="transformation">
     <div class="container">
       <div class="transformation-grid">
-        <div class="transformation-text">
+        <div class="transformation-text reveal reveal-left">
           <div class="section-tag">Transformation Artistry</div>
           <h2 class="section-title">
             The Magic of <span>Flawless HD Glam.</span>
@@ -124,13 +141,13 @@
           </div>
         </div>
 
-        <div class="ba-slider-container" id="baSlider">
+        <div class="ba-slider-container reveal reveal-right" id="baSlider">
           <div class="ba-image ba-before">
-            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=1000&q=80" alt="Natural Skin Before Glam">
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=1000&q=80" alt="Natural Skin Before Glam" loading="lazy">
             <div class="ba-label before">Natural Canvas</div>
           </div>
           <div class="ba-image ba-after" id="baAfter">
-            <img src="assets/images/bridal.png" alt="Haute Bridal HD Makeup After">
+            <img src="assets/images/bridal.png" alt="Haute Bridal HD Makeup After" loading="lazy">
             <div class="ba-label after">Signature HD Glam</div>
           </div>
           <div class="ba-handle" id="baHandle">
@@ -141,13 +158,20 @@
     </div>
   </section>
 
+  <!-- Section Divider -->
+  <div class="section-divider">
+    <svg viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,0 C300,55 900,55 1200,0 L1200,60 L0,60 Z" fill="#0d0b0b"/>
+    </svg>
+  </div>
+
   <!-- ABOUT THE ARTIST -->
   <section class="about-section" id="about">
     <div class="container">
       <div class="about-grid">
-        <div class="about-image-column">
+        <div class="about-image-column reveal reveal-left">
           <div class="about-portrait-frame">
-            <img src="assets/images/artist.png" alt="Aria Laurent - Master Makeup Artist">
+            <img src="assets/images/artist.png" alt="Aria Laurent - Master Makeup Artist" loading="lazy">
           </div>
           <div class="about-experience-badge">
             <span class="stat-number">12+</span>
@@ -155,7 +179,7 @@
           </div>
         </div>
 
-        <div class="about-content">
+        <div class="about-content reveal reveal-right">
           <div class="section-tag">Master Artist Profile</div>
           <h2 class="section-title">
             Aria Laurent — <span>Sculpting Timeless Beauty.</span>
@@ -166,13 +190,26 @@
 
           <div style="margin-bottom: 2.5rem;">
             <div class="brands-marquee-title">Couture Products & Beauty Houses Used</div>
-            <div class="brands-grid">
-              <span class="brand-pill">Tom Ford Beauty</span>
-              <span class="brand-pill">Charlotte Tilbury</span>
-              <span class="brand-pill">Dior Makeup</span>
-              <span class="brand-pill">Chanel Haute Beauté</span>
-              <span class="brand-pill">Pat McGrath Labs</span>
-              <span class="brand-pill">NARS Cosmetic</span>
+            <div class="brands-marquee-wrapper">
+              <div class="brands-marquee-track">
+                <span class="brand-pill-marquee">Tom Ford Beauty</span>
+                <span class="brand-pill-marquee">Charlotte Tilbury</span>
+                <span class="brand-pill-marquee">Dior Makeup</span>
+                <span class="brand-pill-marquee">Chanel Haute Beauté</span>
+                <span class="brand-pill-marquee">Pat McGrath Labs</span>
+                <span class="brand-pill-marquee">NARS Cosmetic</span>
+                <span class="brand-pill-marquee">Armani Beauty</span>
+                <span class="brand-pill-marquee">YSL Beauté</span>
+                <!-- Duplicate for seamless loop -->
+                <span class="brand-pill-marquee">Tom Ford Beauty</span>
+                <span class="brand-pill-marquee">Charlotte Tilbury</span>
+                <span class="brand-pill-marquee">Dior Makeup</span>
+                <span class="brand-pill-marquee">Chanel Haute Beauté</span>
+                <span class="brand-pill-marquee">Pat McGrath Labs</span>
+                <span class="brand-pill-marquee">NARS Cosmetic</span>
+                <span class="brand-pill-marquee">Armani Beauty</span>
+                <span class="brand-pill-marquee">YSL Beauté</span>
+              </div>
             </div>
           </div>
 
@@ -185,10 +222,17 @@
     </div>
   </section>
 
+  <!-- Section Divider -->
+  <div class="section-divider">
+    <svg viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,0 C300,55 900,55 1200,0 L1200,60 L0,60 Z" fill="#191515"/>
+    </svg>
+  </div>
+
   <!-- SERVICES & PRICE GUIDE -->
   <section class="services-section" id="services">
     <div class="container">
-      <div class="portfolio-header">
+      <div class="portfolio-header reveal">
         <div class="section-tag">Curated Offerings</div>
         <h2 class="section-title">
           Bespoke Beauty <span>Services.</span>
@@ -198,7 +242,7 @@
         </p>
       </div>
 
-      <div class="services-grid">
+      <div class="services-grid reveal-stagger">
         <!-- Service 1 -->
         <div class="service-card">
           <div>
@@ -310,10 +354,17 @@
     </div>
   </section>
 
+  <!-- Section Divider -->
+  <div class="section-divider">
+    <svg viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,0 C300,55 900,55 1200,0 L1200,60 L0,60 Z" fill="#0d0b0b"/>
+    </svg>
+  </div>
+
   <!-- PORTFOLIO EDITORIAL GALLERY -->
   <section class="portfolio-section" id="portfolio">
     <div class="container">
-      <div class="portfolio-header">
+      <div class="portfolio-header reveal">
         <div class="section-tag">Haute Gallery</div>
         <h2 class="section-title">
           Selected <span>Works & Looks.</span>
@@ -329,10 +380,10 @@
         </div>
       </div>
 
-      <div class="portfolio-grid" id="portfolioGrid">
+      <div class="portfolio-grid reveal-stagger" id="portfolioGrid">
         <!-- Item 1 -->
         <div class="portfolio-card tall" data-category="bridal" data-title="Couture Royal Bride" data-img="assets/images/bridal.png">
-          <img src="assets/images/bridal.png" alt="Couture Royal Bride" class="portfolio-img">
+          <img src="assets/images/bridal.png" alt="Couture Royal Bride" class="portfolio-img" loading="lazy">
           <div class="portfolio-overlay">
             <span class="portfolio-category">Bridal Artistry</span>
             <h3 class="portfolio-title">The Royal Riviera Look</h3>
@@ -342,7 +393,7 @@
 
         <!-- Item 2 -->
         <div class="portfolio-card" data-category="editorial" data-title="Gold Leaf Runway" data-img="assets/images/editorial.png">
-          <img src="assets/images/editorial.png" alt="Gold Leaf Editorial Look" class="portfolio-img">
+          <img src="assets/images/editorial.png" alt="Gold Leaf Editorial Look" class="portfolio-img" loading="lazy">
           <div class="portfolio-overlay">
             <span class="portfolio-category">Editorial</span>
             <h3 class="portfolio-title">Vogue Autumn Spread</h3>
@@ -352,7 +403,7 @@
 
         <!-- Item 3 -->
         <div class="portfolio-card" data-category="engagement" data-title="Soft Rose Engagement" data-img="assets/images/engagement.png">
-          <img src="assets/images/engagement.png" alt="Soft Rose Engagement Look" class="portfolio-img">
+          <img src="assets/images/engagement.png" alt="Soft Rose Engagement Look" class="portfolio-img" loading="lazy">
           <div class="portfolio-overlay">
             <span class="portfolio-category">Engagement</span>
             <h3 class="portfolio-title">Sunset Romance Glow</h3>
@@ -362,7 +413,7 @@
 
         <!-- Item 4 -->
         <div class="portfolio-card" data-category="hd" data-title="Luminous Glass Skin" data-img="assets/images/hero.png">
-          <img src="assets/images/hero.png" alt="Luminous Glass Skin HD Glam" class="portfolio-img">
+          <img src="assets/images/hero.png" alt="Luminous Glass Skin HD Glam" class="portfolio-img" loading="lazy">
           <div class="portfolio-overlay">
             <span class="portfolio-category">HD Glam</span>
             <h3 class="portfolio-title">Monochrome Velvet Skin</h3>
@@ -372,7 +423,7 @@
 
         <!-- Item 5 -->
         <div class="portfolio-card" data-category="party" data-title="Smokey Champagne Party" data-img="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=1000&q=80">
-          <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=1000&q=80" alt="Party Smokey Glam" class="portfolio-img">
+          <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=1000&q=80" alt="Party Smokey Glam" class="portfolio-img" loading="lazy">
           <div class="portfolio-overlay">
             <span class="portfolio-category">Party</span>
             <h3 class="portfolio-title">Gala Midnight Glam</h3>
@@ -383,11 +434,18 @@
     </div>
   </section>
 
+  <!-- Section Divider -->
+  <div class="section-divider">
+    <svg viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,0 C300,55 900,55 1200,0 L1200,60 L0,60 Z" fill="#0d0b0b"/>
+    </svg>
+  </div>
+
   <!-- BRIDAL EXPERIENCE JOURNEY -->
   <section class="bridal-section" id="bridal">
     <div class="container">
       <div class="bridal-banner">
-        <div>
+        <div class="reveal reveal-left">
           <div class="section-tag">The Bridal Process</div>
           <h2 class="section-title">
             Your Bespoke <span>Bridal Journey.</span>
@@ -398,14 +456,14 @@
           <a href="#booking" class="btn-primary">Book Consultation</a>
         </div>
 
-        <div class="bridal-img-wrapper">
+        <div class="bridal-img-wrapper reveal reveal-right">
           <div class="bridal-img-frame">
-            <img src="assets/images/bridal.png" alt="Luxury Bride Portrait Process">
+            <img src="assets/images/bridal.png" alt="Luxury Bride Portrait Process" loading="lazy">
           </div>
         </div>
       </div>
 
-      <div class="bridal-timeline">
+      <div class="bridal-timeline reveal-stagger">
         <div class="timeline-step">
           <div class="step-node">01</div>
           <h3 class="step-title">Consultation</h3>
@@ -441,10 +499,17 @@
     </div>
   </section>
 
+  <!-- Section Divider -->
+  <div class="section-divider">
+    <svg viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,0 C300,55 900,55 1200,0 L1200,60 L0,60 Z" fill="#191515"/>
+    </svg>
+  </div>
+
   <!-- PACKAGES SECTION -->
   <section class="packages-section" id="packages">
     <div class="container">
-      <div class="portfolio-header">
+      <div class="portfolio-header reveal">
         <div class="section-tag">Curated Collections</div>
         <h2 class="section-title">
           Signature <span>Bridal Packages.</span>
@@ -454,7 +519,7 @@
         </p>
       </div>
 
-      <div class="packages-grid">
+      <div class="packages-grid reveal-stagger">
         <!-- Package 1 -->
         <div class="package-card">
           <h3 class="package-name">Essential Bridal</h3>
@@ -505,54 +570,122 @@
     </div>
   </section>
 
+  <!-- Section Divider -->
+  <div class="section-divider">
+    <svg viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,0 C300,55 900,55 1200,0 L1200,60 L0,60 Z" fill="#151212"/>
+    </svg>
+  </div>
+
   <!-- TESTIMONIALS -->
   <section class="testimonials-section" id="testimonials">
     <div class="container">
-      <div class="portfolio-header">
+      <div class="portfolio-header reveal">
         <div class="section-tag">Words of Delight</div>
         <h2 class="section-title">
           Client <span>Love Stories.</span>
         </h2>
       </div>
 
-      <div class="testimonials-grid">
-        <div class="testimonial-card">
-          <p class="testimonial-quote">
-            "Aria made me feel like an absolute queen on my wedding day. The makeup lasted through 14 hours of emotional tears and dancing without a single crease!"
-          </p>
-          <div class="testimonial-author">
-            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" alt="Bride Sophia" class="author-avatar">
-            <div class="author-info">
-              <h4>Sophia Montgomery</h4>
-              <p>Lake Como Wedding Bride</p>
+      <div class="testimonials-carousel-wrapper reveal">
+        <div class="testimonials-track" id="testimonialsTrack">
+          <!-- Slide 1 -->
+          <div class="testimonial-slide">
+            <div class="testimonial-card">
+              <p class="testimonial-quote">
+                "Aria made me feel like an absolute queen on my wedding day. The makeup lasted through 14 hours of emotional tears and dancing without a single crease!"
+              </p>
+              <div class="testimonial-author">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" alt="Bride Sophia" class="author-avatar" loading="lazy">
+                <div class="author-info">
+                  <h4>Sophia Montgomery</h4>
+                  <p>Lake Como Wedding Bride</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="testimonial-card">
+              <p class="testimonial-quote">
+                "Her skin prep technique is unmatched! My face felt weightless and natural, yet looked completely flawless in every high-definition photo."
+              </p>
+              <div class="testimonial-author">
+                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=150&q=80" alt="Client Victoria" class="author-avatar" loading="lazy">
+                <div class="author-info">
+                  <h4>Victoria Kensington</h4>
+                  <p>Vogue Gala Guest</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="testimonial-card">
+              <p class="testimonial-quote">
+                "The trial and wedding process was effortless. Aria understood my exact vision for a soft rose-gold look and elevated it beyond my dreams."
+              </p>
+              <div class="testimonial-author">
+                <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=150&q=80" alt="Bride Elena" class="author-avatar" loading="lazy">
+                <div class="author-info">
+                  <h4>Elena Rostova</h4>
+                  <p>Royal Garden Bride</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 2 -->
+          <div class="testimonial-slide">
+            <div class="testimonial-card">
+              <p class="testimonial-quote">
+                "Absolutely stunning work! From the consultation call to the final touch on my wedding morning, every moment felt like a five-star spa experience."
+              </p>
+              <div class="testimonial-author">
+                <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=150&q=80" alt="Client Isabella" class="author-avatar" loading="lazy">
+                <div class="author-info">
+                  <h4>Isabella Marchetti</h4>
+                  <p>Tuscany Destination Bride</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="testimonial-card">
+              <p class="testimonial-quote">
+                "I booked the Signature Royal package for my daughter's wedding. The entire team was professional, punctual, and made every guest feel special."
+              </p>
+              <div class="testimonial-author">
+                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&q=80" alt="Client Catherine" class="author-avatar" loading="lazy">
+                <div class="author-info">
+                  <h4>Catherine DuPont</h4>
+                  <p>Mother of the Bride</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="testimonial-card">
+              <p class="testimonial-quote">
+                "As a fashion editor, I've worked with many artists. Aria's editorial technique is on another level — precise, creative, and utterly timeless."
+              </p>
+              <div class="testimonial-author">
+                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80" alt="Editor Marcus" class="author-avatar" loading="lazy">
+                <div class="author-info">
+                  <h4>Marcus Bellingham</h4>
+                  <p>Vogue Editorial Director</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="testimonial-card">
-          <p class="testimonial-quote">
-            "Her skin prep technique is unmatched! My face felt weightless and natural, yet looked completely flawless in every high-definition photo."
-          </p>
-          <div class="testimonial-author">
-            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=150&q=80" alt="Client Victoria" class="author-avatar">
-            <div class="author-info">
-              <h4>Victoria Kensington</h4>
-              <p>Vogue Gala Guest</p>
-            </div>
+        <!-- Carousel Controls -->
+        <div class="carousel-controls">
+          <button class="carousel-btn" id="carouselPrev" aria-label="Previous testimonials">
+            <i data-lucide="chevron-left"></i>
+          </button>
+          <div class="carousel-dots" id="carouselDots">
+            <button class="carousel-dot active" data-slide="0" aria-label="Slide 1"></button>
+            <button class="carousel-dot" data-slide="1" aria-label="Slide 2"></button>
           </div>
-        </div>
-
-        <div class="testimonial-card">
-          <p class="testimonial-quote">
-            "The trial and wedding process was effortless. Aria understood my exact vision for a soft rose-gold look and elevated it beyond my dreams."
-          </p>
-          <div class="testimonial-author">
-            <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=150&q=80" alt="Bride Elena" class="author-avatar">
-            <div class="author-info">
-              <h4>Elena Rostova</h4>
-              <p>Royal Garden Bride</p>
-            </div>
-          </div>
+          <button class="carousel-btn" id="carouselNext" aria-label="Next testimonials">
+            <i data-lucide="chevron-right"></i>
+          </button>
         </div>
       </div>
     </div>
@@ -561,7 +694,7 @@
   <!-- INSTAGRAM SOCIAL GALLERY -->
   <section class="social-section">
     <div class="container">
-      <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem;">
+      <div class="reveal" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem;">
         <div>
           <div class="section-tag">@aria.laurent.beauty</div>
           <h2 class="section-title">Follow on <span>Instagram.</span></h2>
@@ -571,37 +704,37 @@
         </a>
       </div>
 
-      <div class="social-grid">
+      <div class="social-grid reveal-stagger">
         <div class="social-card">
-          <img src="assets/images/hero.png" alt="Instagram Look 1">
+          <img src="assets/images/hero.png" alt="Instagram Look 1" loading="lazy">
           <div class="social-overlay">
             <span><i data-lucide="heart"></i> 1.4k</span>
             <span><i data-lucide="message-circle"></i> 82</span>
           </div>
         </div>
         <div class="social-card">
-          <img src="assets/images/bridal.png" alt="Instagram Look 2">
+          <img src="assets/images/bridal.png" alt="Instagram Look 2" loading="lazy">
           <div class="social-overlay">
             <span><i data-lucide="heart"></i> 2.8k</span>
             <span><i data-lucide="message-circle"></i> 142</span>
           </div>
         </div>
         <div class="social-card">
-          <img src="assets/images/editorial.png" alt="Instagram Look 3">
+          <img src="assets/images/editorial.png" alt="Instagram Look 3" loading="lazy">
           <div class="social-overlay">
             <span><i data-lucide="heart"></i> 3.1k</span>
             <span><i data-lucide="message-circle"></i> 204</span>
           </div>
         </div>
         <div class="social-card">
-          <img src="assets/images/engagement.png" alt="Instagram Look 4">
+          <img src="assets/images/engagement.png" alt="Instagram Look 4" loading="lazy">
           <div class="social-overlay">
             <span><i data-lucide="heart"></i> 1.9k</span>
             <span><i data-lucide="message-circle"></i> 95</span>
           </div>
         </div>
         <div class="social-card">
-          <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=800&q=80" alt="Instagram Look 5">
+          <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=800&q=80" alt="Instagram Look 5" loading="lazy">
           <div class="social-overlay">
             <span><i data-lucide="heart"></i> 2.2k</span>
             <span><i data-lucide="message-circle"></i> 110</span>
@@ -611,10 +744,17 @@
     </div>
   </section>
 
+  <!-- Section Divider -->
+  <div class="section-divider">
+    <svg viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,0 C300,55 900,55 1200,0 L1200,60 L0,60 Z" fill="#191515"/>
+    </svg>
+  </div>
+
   <!-- BOOKING SECTION -->
   <section class="booking-section" id="booking">
     <div class="container">
-      <div class="booking-wrapper">
+      <div class="booking-wrapper reveal reveal-scale">
         <div class="booking-info-panel">
           <div>
             <div class="section-tag">Reservations</div>
@@ -767,6 +907,11 @@
       <p style="font-size: 0.8rem; color: var(--text-muted);" id="toastMsg">We will confirm availability within 24 hours.</p>
     </div>
   </div>
+
+  <!-- BACK TO TOP BUTTON -->
+  <a href="#home" class="back-to-top" id="backToTop" aria-label="Back to top">
+    <i data-lucide="chevron-up"></i>
+  </a>
 
   <!-- FOOTER -->
   <footer class="footer">
