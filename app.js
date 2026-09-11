@@ -10,23 +10,24 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ======================================================================
-  // PRELOADER
+  // PRELOADER (Instant load - no blank wait time)
   // ======================================================================
   const preloader = document.getElementById('preloader');
   if (preloader) {
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        preloader.classList.add('hidden');
-        // Trigger hero animations after preloader hides
-        triggerHeroAnimations();
-      }, 1800);
-    });
-
-    // Fallback: remove preloader after 4s max
-    setTimeout(() => {
+    const hidePreloader = () => {
       preloader.classList.add('hidden');
       triggerHeroAnimations();
-    }, 4000);
+    };
+
+    if (document.readyState === 'complete') {
+      setTimeout(hidePreloader, 50);
+    } else {
+      window.addEventListener('load', () => {
+        setTimeout(hidePreloader, 50);
+      });
+      // Safety fallback: 800ms max
+      setTimeout(hidePreloader, 800);
+    }
   } else {
     triggerHeroAnimations();
   }

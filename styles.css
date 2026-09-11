@@ -95,6 +95,23 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Image Container Fallbacks & Instant Shimmer Canvas (Zero Blank Space) */
+.hero-bg,
+.about-portrait-frame,
+.portfolio-card,
+.social-card,
+.ba-slider-container,
+.bridal-img-frame,
+.lightbox-img-wrap {
+  background: radial-gradient(circle at 50% 40%, #241c19 0%, #130f0f 70%, #080707 100%);
+  position: relative;
+}
+
+img {
+  background-color: #141010;
+  display: block;
+}
+
 /* Custom Cursor */
 .custom-cursor {
   position: fixed;
@@ -719,7 +736,7 @@ h1, h2, h3, h4, h5 {
    BEFORE & AFTER TRANSFORMATION SLIDER
    ========================================================================== */
 .transformation-section {
-  padding: 8rem 0;
+  padding: 4.5rem 0;
   background: var(--bg-card);
   position: relative;
   overflow: hidden;
@@ -813,7 +830,7 @@ h1, h2, h3, h4, h5 {
    PORTFOLIO EDITORIAL GALLERY
    ========================================================================== */
 .portfolio-section {
-  padding: 8rem 0;
+  padding: 4.5rem 0;
   background: var(--bg-dark);
 }
 
@@ -822,7 +839,7 @@ h1, h2, h3, h4, h5 {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin-bottom: 4rem;
+  margin-bottom: 2.2rem;
 }
 
 .portfolio-filters {
@@ -1015,7 +1032,7 @@ h1, h2, h3, h4, h5 {
    SERVICES & PRICE GUIDE
    ========================================================================== */
 .services-section {
-  padding: 8rem 0;
+  padding: 4.5rem 0;
   background: var(--bg-surface);
   position: relative;
 }
@@ -1024,7 +1041,7 @@ h1, h2, h3, h4, h5 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
-  margin-top: 4rem;
+  margin-top: 2.2rem;
 }
 
 .service-card {
@@ -1091,7 +1108,7 @@ h1, h2, h3, h4, h5 {
    BRIDAL EXPERIENCE JOURNEY
    ========================================================================== */
 .bridal-section {
-  padding: 8rem 0;
+  padding: 4.5rem 0;
   background: var(--bg-dark);
   position: relative;
 }
@@ -1101,7 +1118,7 @@ h1, h2, h3, h4, h5 {
   grid-template-columns: 1fr 1fr;
   gap: 5rem;
   align-items: center;
-  margin-bottom: 6rem;
+  margin-bottom: 3.5rem;
 }
 
 .bridal-img-wrapper {
@@ -1185,7 +1202,7 @@ h1, h2, h3, h4, h5 {
    PACKAGES SECTION (EDITORIAL LUXURY)
    ========================================================================== */
 .packages-section {
-  padding: 8rem 0;
+  padding: 4.5rem 0;
   background: var(--bg-surface);
 }
 
@@ -1193,7 +1210,7 @@ h1, h2, h3, h4, h5 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2.5rem;
-  margin-top: 4rem;
+  margin-top: 2.5rem;
 }
 
 .package-card {
@@ -1283,7 +1300,7 @@ h1, h2, h3, h4, h5 {
    ABOUT THE ARTIST
    ========================================================================== */
 .about-section {
-  padding: 8rem 0;
+  padding: 4.5rem 0;
   background: var(--bg-dark);
 }
 
@@ -1359,7 +1376,7 @@ h1, h2, h3, h4, h5 {
    TESTIMONIALS
    ========================================================================== */
 .testimonials-section {
-  padding: 8rem 0;
+  padding: 4.5rem 0;
   background: var(--bg-card);
   position: relative;
 }
@@ -1420,7 +1437,7 @@ h1, h2, h3, h4, h5 {
    INSTAGRAM / SOCIAL GALLERY
    ========================================================================== */
 .social-section {
-  padding: 6rem 0;
+  padding: 3.8rem 0;
   background: var(--bg-dark);
 }
 
@@ -1428,7 +1445,7 @@ h1, h2, h3, h4, h5 {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1rem;
-  margin-top: 3rem;
+  margin-top: 2rem;
 }
 
 .social-card {
@@ -1470,22 +1487,26 @@ h1, h2, h3, h4, h5 {
    BOOKING & APPOINTMENT FORM
    ========================================================================== */
 .booking-section {
-  padding: 8rem 0;
+  padding: 4.5rem 0;
   background: var(--bg-surface);
 }
 
 .booking-wrapper {
   display: grid;
   grid-template-columns: 1fr 1.2fr;
-  gap: 4rem;
+  gap: 3rem;
   background: var(--bg-card);
   border: 1px solid var(--border-gold);
   box-shadow: var(--shadow-luxury);
+  border-radius: 12px;
   overflow: hidden;
+  max-width: 1150px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .booking-info-panel {
-  padding: 4rem;
+  padding: 3rem 2.5rem;
   background: linear-gradient(180deg, #1c1716 0%, #151110 100%);
   border-right: 1px solid var(--border-subtle);
   display: flex;
@@ -1494,7 +1515,7 @@ h1, h2, h3, h4, h5 {
 }
 
 .booking-form-panel {
-  padding: 4rem;
+  padding: 3rem 2.5rem;
 }
 
 .form-grid {
@@ -2210,6 +2231,36 @@ textarea.form-control {
   }
   .section-divider svg {
     height: 35px;
+  }
+  .portfolio-section,
+  .services-section,
+  .bridal-section,
+  .packages-section,
+  .about-section,
+  .testimonials-section,
+  .booking-section,
+  .transformation-section {
+    padding: 3rem 0;
+  }
+  .social-section {
+    padding: 2.2rem 0;
+  }
+  .booking-wrapper {
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 100%;
+  }
+  .booking-info-panel {
+    border-right: none;
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 2.2rem 1.25rem;
+    text-align: center;
+    align-items: center;
+  }
+  .booking-form-panel {
+    padding: 2.2rem 1.25rem;
   }
   .lightbox-content {
     grid-template-columns: 1fr;
