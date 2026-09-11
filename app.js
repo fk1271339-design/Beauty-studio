@@ -341,18 +341,20 @@ document.addEventListener('DOMContentLoaded', () => {
   // ======================================================================
   // STYLE FINDER QUIZ MODAL
   // ======================================================================
-  const openQuizBtn = document.getElementById('openQuizBtn');
+  const quizTriggers = document.querySelectorAll('#openQuizBtn, #openHeroQuizBtn, .open-quiz-trigger');
   const quizModal = document.getElementById('quizModal');
   const quizClose = document.getElementById('quizClose');
   const quizOpts = document.querySelectorAll('.quiz-opt');
   const quizStep1 = document.getElementById('quizStep1');
   const quizResult = document.getElementById('quizResult');
 
-  if (openQuizBtn && quizModal) {
-    openQuizBtn.addEventListener('click', () => {
-      quizStep1.style.display = 'block';
-      quizResult.style.display = 'none';
-      quizModal.classList.add('active');
+  if (quizModal) {
+    quizTriggers.forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (quizStep1) quizStep1.style.display = 'block';
+        if (quizResult) quizResult.style.display = 'none';
+        quizModal.classList.add('active');
+      });
     });
   }
 
