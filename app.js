@@ -4,9 +4,73 @@
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
+  // ======================================================================
+  // PREFERS REDUCED MOTION CHECK
+  // ======================================================================
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
   // 1. Initialize Lucide Icons
   if (window.lucide) {
     window.lucide.createIcons();
+  }
+
+  // ======================================================================
+  // CUSTOM LERP SMOOTH SCROLL
+  // ======================================================================
+  if (!isTouchDevice && !prefersReducedMotion) {
+    let currentY = window.scrollY;
+    let targetY = window.scrollY;
+    let ease = 0.08;
+    let isScrolling = false;
+
+    window.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      targetY += e.deltaY;
+      targetY = Math.max(0, Math.min(targetY, document.documentElement.scrollHeight - window.innerHeight));
+      if (!isScrolling) {
+        isScrolling = true;
+        requestAnimationFrame(updateScroll);
+      }
+    }, { passive: false });
+
+    function updateScroll() {
+      currentY += (targetY - currentY) * ease;
+      window.scrollTo(0, currentY);
+      
+      if (Math.abs(targetY - currentY) > 0.5) {
+        requestAnimationFrame(updateScroll);
+      } else {
+        currentY = targetY;
+        isScrolling = false;
+      }
+    }
+
+    // Handle hash links for smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetEl = document.querySelector(targetId);
+        if (targetEl) {
+          e.preventDefault();
+          targetY = targetEl.offsetTop;
+          if (!isScrolling) {
+            isScrolling = true;
+            requestAnimationFrame(updateScroll);
+          }
+        }
+      });
+    });
+    
+    // Sync targetY on manual scrollbar drag
+    window.addEventListener('scroll', () => {
+      if (!isScrolling) {
+        targetY = window.scrollY;
+        currentY = window.scrollY;
+      }
+    });
   }
 
   // ======================================================================
@@ -54,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // FLOATING SPARKLE PARTICLES (HERO)
   // ======================================================================
   const sparkleCanvas = document.getElementById('sparkleCanvas');
-  if (sparkleCanvas) {
+  if (sparkleCanvas && !prefersReducedMotion) {
     function createSparkle() {
       const sparkle = document.createElement('div');
       sparkle.classList.add('sparkle');
@@ -114,6 +178,36 @@ document.addEventListener('DOMContentLoaded', () => {
     hoverables.forEach(el => {
       el.addEventListener('mouseenter', () => document.body.classList.add('hovered'));
       el.addEventListener('mouseleave', () => document.body.classList.remove('hovered'));
+    });
+
+    // Enhanced cursor for media elements
+    const mediaElements = document.querySelectorAll('img, .portfolio-card, .social-card');
+    mediaElements.forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-media'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-media'));
+    });
+  }
+
+  // ======================================================================
+  // MAGNETIC BUTTON EFFECT
+  // ======================================================================
+  if (!isTouchDevice && !prefersReducedMotion) {
+    const magneticBtns = document.querySelectorAll('.btn-primary, .btn-secondary, .btn-minimized, .filter-btn');
+    
+    magneticBtns.forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        
+        btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+        btn.style.transition = 'none';
+      });
+      
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = `translate(0px, 0px)`;
+        btn.style.transition = 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
+      });
     });
   }
 
@@ -190,6 +284,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
     revealElements.forEach(el => revealObserver.observe(el));
   }
+
+  // ======================================================================
+  // IMAGE WIPE REVEAL & BLUR-UP LAZY LOAD
+  // ======================================================================
+  const mediaObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const target = entry.target;
+        
+        // Handle Lazy Load
+        if (target.hasAttribute('data-src')) {
+          const img = new Image();
+          img.src = target.getAttribute('data-src');
+          img.onload = () => {
+            target.src = img.src;
+            target.classList.add('img-loaded');
+          };
+          target.removeAttribute('data-src');
+        }
+        
+        // Handle Wipe Reveal
+        if (!prefersReducedMotion && (target.classList.contains('portfolio-img') || target.closest('.social-card'))) {
+          target.classList.add('wipe-revealed');
+        }
+        
+        observer.unobserve(target);
+      }
+    });
+  }, { rootMargin: '50px 0px', threshold: 0.1 });
+
+  const lazyImages = document.querySelectorAll('img[data-src]');
+  const wipeImages = document.querySelectorAll('.portfolio-img, .social-card img');
+  
+  lazyImages.forEach(img => mediaObserver.observe(img));
+  wipeImages.forEach(img => {
+    if (!img.hasAttribute('data-src')) {
+      mediaObserver.observe(img);
+    }
+  });
 
   // ======================================================================
   // MOBILE DRAWER NAVIGATION
@@ -479,6 +612,41 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ======================================================================
+  // FLOATING FORM LABELS
+  // ======================================================================
+  const formGroups = document.querySelectorAll('.form-group');
+  formGroups.forEach(group => {
+    const input = group.querySelector('.form-control');
+    const label = group.querySelector('label');
+    
+    if (input && label && (input.tagName === 'INPUT' || input.tagName === 'TEXTAREA') && input.type !== 'date' && input.type !== 'select-one') {
+      group.classList.add('form-group-float');
+      label.classList.add('float-label');
+      group.appendChild(label); // Move label after input for sibling combinator to work
+      
+      const placeholder = input.getAttribute('placeholder');
+      if (placeholder) {
+        input.setAttribute('data-placeholder', placeholder);
+        input.removeAttribute('placeholder');
+      }
+
+      input.addEventListener('focus', () => {
+        input.classList.add('has-value');
+        if (placeholder) input.setAttribute('placeholder', placeholder);
+      });
+
+      input.addEventListener('blur', () => {
+        if (!input.value) {
+          input.classList.remove('has-value');
+          input.removeAttribute('placeholder');
+        }
+      });
+
+      if (input.value) input.classList.add('has-value');
+    }
+  });
+
+  // ======================================================================
   // BOOKING FORM SUBMISSION
   // ======================================================================
   const bookingForm = document.getElementById('bookingForm');
@@ -489,19 +657,43 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
 
       const name = document.getElementById('clientName').value;
+      const submitBtn = document.getElementById('submitBtn');
 
-      if (toastNotification) {
-        document.getElementById('toastTitle').textContent = `Thank You, ${name}!`;
-        document.getElementById('toastMsg').textContent = `Your appointment request has been received. Our concierge will reach out within 24h.`;
-        toastNotification.classList.add('active');
-
+      if (submitBtn) {
+        submitBtn.classList.add('is-loading');
+        
+        // Simulate network request
         setTimeout(() => {
-          toastNotification.classList.remove('active');
-        }, 5000);
+          submitBtn.classList.remove('is-loading');
+          submitBtn.classList.add('is-success');
+          
+          if (toastNotification) {
+            document.getElementById('toastTitle').textContent = `Thank You, ${name}!`;
+            document.getElementById('toastMsg').textContent = `Your appointment request has been received. Our concierge will reach out within 24h.`;
+            toastNotification.classList.add('active');
+            
+            setTimeout(() => {
+              toastNotification.classList.remove('active');
+            }, 5000);
+          }
+          
+          setTimeout(() => {
+            submitBtn.classList.remove('is-success');
+            bookingForm.reset();
+            updateBookingTotal();
+            
+            // Reset floating labels
+            formGroups.forEach(group => {
+              const input = group.querySelector('.form-control');
+              if (input && input.tagName !== 'SELECT' && input.type !== 'date') {
+                input.classList.remove('has-value');
+                input.removeAttribute('placeholder');
+              }
+            });
+          }, 2500);
+          
+        }, 1500);
       }
-
-      bookingForm.reset();
-      updateBookingTotal();
     });
   }
 

@@ -112,6 +112,18 @@ img {
   display: block;
 }
 
+/* Blur-up lazy-load placeholder */
+img[data-src] {
+  filter: blur(18px);
+  transform: scale(1.04);
+  transition: filter 0.6s ease, transform 0.6s ease;
+}
+
+img[data-src].img-loaded {
+  filter: blur(0);
+  transform: scale(1);
+}
+
 /* Custom Cursor */
 .custom-cursor {
   position: fixed;
@@ -152,6 +164,22 @@ body.hovered .custom-cursor-follower {
   height: 54px;
   border-color: var(--accent-rose-light);
   background: rgba(200, 155, 132, 0.05);
+}
+
+/* Enhanced cursor state on images/cards */
+body.cursor-media .custom-cursor {
+  width: 6px;
+  height: 6px;
+  background-color: rgba(229, 193, 88, 0.6);
+  mix-blend-mode: difference;
+}
+
+body.cursor-media .custom-cursor-follower {
+  width: 72px;
+  height: 72px;
+  border-color: rgba(229, 193, 88, 0.35);
+  background: rgba(229, 193, 88, 0.04);
+  backdrop-filter: blur(2px);
 }
 
 /* Layout Container */
@@ -211,7 +239,7 @@ h1, h2, h3, h4, h5 {
   font-size: 1.1rem;
   color: var(--text-muted);
   font-weight: 300;
-  max-width: 600px;
+  max-width: 65ch;
 }
 
 /* Buttons & Interactive Elements */
@@ -513,12 +541,13 @@ h1, h2, h3, h4, h5 {
   content: '';
   position: absolute;
   bottom: -4px;
-  left: 50%;
-  width: 0%;
+  left: 0;
+  width: 100%;
   height: 1px;
-  background: var(--accent-rose);
-  transition: var(--transition-medium);
-  transform: translateX(-50%);
+  background: linear-gradient(90deg, var(--accent-rose), var(--accent-champagne));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s var(--transition-smooth);
 }
 
 .nav-link:hover, .nav-link.active {
@@ -526,7 +555,7 @@ h1, h2, h3, h4, h5 {
 }
 
 .nav-link:hover::after, .nav-link.active::after {
-  width: 100%;
+  transform: scaleX(1);
 }
 
 .nav-cta {
@@ -971,12 +1000,23 @@ h1, h2, h3, h4, h5 {
   padding: 3rem;
   opacity: 0;
   pointer-events: none;
-  transition: var(--transition-medium);
+  transition: opacity 0.4s var(--transition-smooth);
+}
+
+.lightbox-modal .lightbox-content {
+  transform: scale(0.96) translateY(12px);
+  transition: transform 0.5s var(--transition-smooth), opacity 0.4s ease;
+  opacity: 0;
 }
 
 .lightbox-modal.active {
   opacity: 1;
   pointer-events: all;
+}
+
+.lightbox-modal.active .lightbox-content {
+  transform: scale(1) translateY(0);
+  opacity: 1;
 }
 
 .lightbox-content {
@@ -1057,7 +1097,7 @@ h1, h2, h3, h4, h5 {
 
 .service-card:hover {
   border-color: var(--accent-rose);
-  transform: translateY(-6px);
+  transform: translateY(-4px);
   box-shadow: var(--glow-rose);
 }
 
@@ -1080,6 +1120,7 @@ h1, h2, h3, h4, h5 {
   font-weight: 300;
   margin-bottom: 2rem;
   line-height: 1.7;
+  max-width: 65ch;
 }
 
 .service-meta {
@@ -1345,6 +1386,7 @@ h1, h2, h3, h4, h5 {
   line-height: 1.8;
   font-weight: 300;
   margin-bottom: 2.5rem;
+  max-width: 65ch;
 }
 
 .brands-marquee-title {
@@ -1549,16 +1591,130 @@ h1, h2, h3, h4, h5 {
   font-family: var(--font-sans);
   font-size: 0.95rem;
   outline: none;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.35s ease, box-shadow 0.35s ease;
 }
 
 .form-control:focus {
-  border-color: var(--accent-rose);
+  border-color: var(--accent-champagne);
+  box-shadow: 0 0 0 3px rgba(229, 193, 88, 0.12), 0 0 20px rgba(229, 193, 88, 0.06);
+}
+
+.form-control.is-valid {
+  border-color: rgba(130, 200, 130, 0.5);
+}
+
+.form-control.is-invalid {
+  border-color: rgba(220, 120, 120, 0.5);
 }
 
 textarea.form-control {
   resize: vertical;
   min-height: 110px;
+}
+
+/* Floating Labels */
+.form-group-float {
+  position: relative;
+}
+
+.form-group-float .form-control {
+  padding-top: 1.4rem;
+  padding-bottom: 0.5rem;
+}
+
+.form-group-float .float-label {
+  position: absolute;
+  top: 50%;
+  left: 1.2rem;
+  transform: translateY(-50%);
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  pointer-events: none;
+  transition: all 0.3s var(--transition-smooth);
+  transform-origin: left;
+}
+
+.form-group-float textarea ~ .float-label {
+  top: 1.2rem;
+  transform: translateY(0);
+}
+
+.form-group-float .form-control:focus ~ .float-label,
+.form-group-float .form-control.has-value ~ .float-label {
+  top: 0.45rem;
+  transform: translateY(0) scale(0.72);
+  color: var(--accent-champagne);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* Submit Button States */
+.btn-submit-wrap {
+  position: relative;
+}
+
+.btn-submit {
+  position: relative;
+  overflow: hidden;
+  min-width: 240px;
+  min-height: 52px;
+}
+
+.btn-submit .btn-text,
+.btn-submit .btn-spinner,
+.btn-submit .btn-success {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.btn-submit .btn-spinner,
+.btn-submit .btn-success {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.btn-submit.is-loading .btn-text {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.btn-submit.is-loading .btn-spinner {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.btn-submit.is-success .btn-text {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.btn-submit.is-success .btn-success {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@keyframes spinRotate {
+  to { transform: rotate(360deg); }
+}
+
+.submit-spinner {
+  width: 22px;
+  height: 22px;
+  border: 2px solid rgba(229, 193, 88, 0.2);
+  border-top-color: var(--accent-champagne);
+  border-radius: 50%;
+  animation: spinRotate 0.7s linear infinite;
+}
+
+.submit-check {
+  width: 24px;
+  height: 24px;
+  color: var(--accent-champagne);
 }
 
 /* ==========================================================================
@@ -2098,8 +2254,8 @@ textarea.form-control {
 }
 
 .nav-link.spy-active::after {
-  width: 100% !important;
-  background: var(--accent-champagne) !important;
+  transform: scaleX(1) !important;
+  background: linear-gradient(90deg, var(--accent-champagne), var(--accent-rose)) !important;
 }
 
 /* ==========================================================================
@@ -2351,5 +2507,123 @@ textarea.form-control {
   .custom-cursor,
   .custom-cursor-follower {
     display: none !important;
+  }
+}
+
+/* ==========================================================================
+   PORTFOLIO / GALLERY IMAGE WIPE-REVEAL
+   ========================================================================== */
+.portfolio-card .portfolio-img,
+.social-card img {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 0.8s var(--transition-smooth), transform 0.8s var(--transition-smooth), filter 0.5s ease;
+}
+
+.portfolio-card .portfolio-img.wipe-revealed,
+.social-card img.wipe-revealed {
+  clip-path: inset(0 0 0 0);
+}
+
+/* ==========================================================================
+   MAGNETIC BUTTON EFFECT
+   ========================================================================== */
+.magnetic-btn {
+  transition: transform 0.25s var(--transition-smooth);
+}
+
+/* ==========================================================================
+   KEYBOARD FOCUS STYLES
+   ========================================================================== */
+*:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--bg-dark), 0 0 0 4px rgba(229, 193, 88, 0.55);
+}
+
+.btn-primary:focus-visible,
+.btn-secondary:focus-visible,
+.btn-minimized:focus-visible {
+  box-shadow: 0 0 0 2px var(--bg-dark), 0 0 0 4px var(--accent-champagne), var(--glow-gold);
+}
+
+.form-control:focus-visible {
+  box-shadow: 0 0 0 3px rgba(229, 193, 88, 0.15), 0 0 20px rgba(229, 193, 88, 0.06);
+  border-color: var(--accent-champagne);
+}
+
+.filter-btn:focus-visible {
+  box-shadow: 0 0 0 2px var(--bg-dark), 0 0 0 4px var(--accent-rose);
+}
+
+.portfolio-card:focus-visible {
+  box-shadow: 0 0 0 3px var(--accent-champagne);
+}
+
+.carousel-btn:focus-visible,
+.carousel-dot:focus-visible {
+  box-shadow: 0 0 0 2px var(--bg-dark), 0 0 0 4px var(--accent-rose);
+}
+
+.nav-link:focus-visible {
+  box-shadow: none;
+  text-decoration: underline;
+  text-decoration-color: var(--accent-champagne);
+  text-underline-offset: 6px;
+}
+
+/* ==========================================================================
+   PREFERS REDUCED MOTION
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.15s !important;
+  }
+
+  .hero-bg-img {
+    animation: none !important;
+  }
+
+  .sparkle-canvas {
+    display: none !important;
+  }
+
+  .brands-marquee-track {
+    animation: none !important;
+  }
+
+  .reveal,
+  .reveal-stagger > * {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .hero-headline .word-inner {
+    transform: none !important;
+  }
+
+  .hero-badge,
+  .hero-subheading,
+  .hero-actions {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .preloader-logo,
+  .preloader-sub {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  .portfolio-card .portfolio-img,
+  .social-card img {
+    clip-path: none !important;
+  }
+
+  .scroll-line::after {
+    animation: none !important;
   }
 }
