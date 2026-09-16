@@ -469,7 +469,7 @@ body.cursor-hover .cursor-ring {
   height: 100%;
   object-fit: cover;
   object-position: center;
-  filter: brightness(0.72) contrast(1.08);
+  filter: brightness(0.85) contrast(1.05);
 }
 
 /* HUD SCROLL INDICATOR */
@@ -616,47 +616,51 @@ body.cursor-hover .cursor-ring {
 }
 
 .glow-box {
-  background: rgba(5, 5, 5, 0.65);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(212, 175, 55, 0.25);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 25px rgba(212, 175, 55, 0.08);
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
-/* LIGHT THEME OPULENCE BOX INSPIRED BY REFERENCE 1 & 2 */
+/* TRANSPARENT FLOATING TEXT OVERLAY — NO BOXES */
 .light-theme-box {
-  background: rgba(250, 247, 242, 0.94) !important;
-  border: 1px solid rgba(197, 160, 89, 0.4) !important;
-  color: #0F0F0F !important;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 30px rgba(212, 175, 55, 0.15) !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: var(--text-cream) !important;
 }
 
 .light-theme-box .title-dark {
-  color: #0F0F0F !important;
+  color: var(--text-cream) !important;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.95) !important;
 }
 
 .light-theme-box .dark-sub {
-  color: #4A453E !important;
-  text-shadow: none !important;
+  color: var(--text-muted) !important;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.95) !important;
 }
 
 .light-theme-box .pill-card {
-  background: rgba(255, 255, 255, 0.9) !important;
-  border: 1px solid rgba(197, 160, 89, 0.3) !important;
+  background: rgba(5, 5, 5, 0.35) !important;
+  border: 1px solid rgba(212, 175, 55, 0.25) !important;
+  backdrop-filter: blur(8px) !important;
 }
 
 .light-theme-box .pill-card h4 {
-  color: #0F0F0F !important;
+  color: var(--text-cream) !important;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9) !important;
 }
 
 .light-theme-box .pill-card p {
-  color: #5A554E !important;
+  color: var(--text-muted) !important;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9) !important;
 }
 
 .emerald-theme-box {
-  background: rgba(6, 29, 25, 0.8) !important;
-  border: 1px solid rgba(212, 175, 55, 0.3) !important;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(11, 43, 38, 0.5) !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 .cinematic-section.section-active .section-content {
@@ -776,9 +780,9 @@ body.cursor-hover .cursor-ring {
   gap: 1.8rem;
   margin-top: 1rem;
   padding: 0.8rem 1.6rem;
-  background: rgba(10, 10, 10, 0.65);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(212, 175, 55, 0.18);
+  background: rgba(5, 5, 5, 0.4);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(212, 175, 55, 0.25);
   border-radius: 8px;
 }
 
@@ -817,9 +821,9 @@ body.cursor-hover .cursor-ring {
 }
 
 .pill-card {
-  background: rgba(15, 15, 15, 0.75);
-  backdrop-filter: blur(18px);
-  border: 1px solid rgba(212, 175, 55, 0.2);
+  background: rgba(5, 5, 5, 0.4);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(212, 175, 55, 0.25);
   padding: 1.2rem;
   border-radius: 8px;
   display: flex;
@@ -865,9 +869,9 @@ body.cursor-hover .cursor-ring {
 }
 
 .mini-service-box {
-  background: rgba(10, 10, 10, 0.8);
-  backdrop-filter: blur(18px);
-  border: 1px solid rgba(212, 175, 55, 0.2);
+  background: rgba(5, 5, 5, 0.45);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(212, 175, 55, 0.25);
   padding: 1.4rem 1.2rem;
   border-radius: 8px;
   text-align: left;
@@ -934,8 +938,8 @@ body.cursor-hover .cursor-ring {
 }
 
 .spa-card {
-  background: rgba(6, 29, 25, 0.75);
-  backdrop-filter: blur(18px);
+  background: rgba(5, 5, 5, 0.45);
+  backdrop-filter: blur(10px);
   border: 1px solid rgba(212, 175, 55, 0.25);
   padding: 1.6rem 1.4rem;
   border-radius: 10px;
@@ -1027,12 +1031,13 @@ body.cursor-hover .cursor-ring {
 /* NEWSLETTER BOX INSPIRED BY REFERENCE 2 */
 .newsletter-box {
   margin-bottom: 3.5rem;
-  background: rgba(12, 12, 12, 0.88);
+  background: rgba(5, 5, 5, 0.45);
+  backdrop-filter: blur(10px);
   border: 1px solid rgba(212, 175, 55, 0.3);
   border-radius: 12px;
   padding: 2.5rem;
   text-align: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
 .newsletter-inner h3 {
