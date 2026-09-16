@@ -2,995 +2,675 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aria Laurent | Luxury Makeup Artistry & Beauty Studio</title>
-  <meta name="description" content="International haute makeup artistry and luxury beauty studio. Crafting bespoke bridal, editorial, and HD glam looks for moments worth remembering.">
-  <meta name="keywords" content="luxury makeup artist, haute beauty studio, bridal makeup, editorial makeup, HD makeup, wedding beauty">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>ARIA LAURENT — Redefining Hair Artistry & Haute Beauté | Paris</title>
+  <meta name="description" content="ARIA LAURENT — Redefining Hair Artistry & Haute Beauté. Experience master craftsmanship, bespoke French balayage, Japanese head spa, and private VIP suites.">
+  <meta name="keywords" content="Aria Laurent, luxury salon, haute coiffure, Paris hair artist, VIP hair spa, luxury haircut, balayage, haute beauté">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  
+
+  <!-- Fast CDN Smooth Motion Libraries -->
+  <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
   <!-- CSS Stylesheet -->
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <!-- PRELOADER -->
+  <!-- Custom Glowing Golden Magnetic Cursor (Desktop) -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- ULTRA-FAST PRELOADER -->
   <div class="preloader" id="preloader">
-    <div class="preloader-logo">Aria Laurent</div>
-    <div class="preloader-sub">Haute Beauté Studio</div>
-    <div class="preloader-line"></div>
+    <div class="preloader-content">
+      <div class="preloader-monogram">AL</div>
+      <div class="preloader-title">ARIA LAURENT</div>
+      <div class="preloader-subtitle">REDEFINING HAIR ARTISTRY</div>
+      <div class="preloader-bar-bg"><div class="preloader-bar" id="preloaderBar"></div></div>
+    </div>
   </div>
 
-  <!-- Custom Magnetic Cursor -->
-  <div class="custom-cursor" id="cursor"></div>
-  <div class="custom-cursor-follower" id="cursorFollower"></div>
-
-  <!-- NAVIGATION BAR -->
-  <nav class="navbar" id="navbar">
-    <div class="container navbar-container">
-      <a href="#home" class="brand-logo">
-        <span class="logo-main">Aria Laurent</span>
-        <span class="logo-sub">Haute Beauté Studio</span>
+  <!-- FLOATING GLOWING NAVBAR -->
+  <header class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="#hero" class="brand-logo" aria-label="Aria Laurent Home">
+        <span class="logo-title">ARIA LAURENT</span>
+        <span class="logo-sub">PARIS • HAUTE COIFFURE</span>
       </a>
 
-      <ul class="nav-menu" id="navMenu">
-        <li><a href="#home" class="nav-link active">Home</a></li>
-        <li><a href="#about" class="nav-link">About</a></li>
-        <li><a href="#services" class="nav-link">Services</a></li>
-        <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
-        <li><a href="#bridal" class="nav-link">Bridal</a></li>
-        <li><a href="#packages" class="nav-link">Packages</a></li>
-        <li><a href="#testimonials" class="nav-link">Testimonials</a></li>
-        <li><a href="#booking" class="nav-link">Contact</a></li>
-        <li>
-          <a href="#booking" class="btn-primary nav-cta">Book Appointment</a>
-        </li>
-      </ul>
+      <nav class="nav-links" id="navLinks">
+        <a href="#hero" class="nav-item active" data-section="0">The Salon</a>
+        <a href="#entrance" class="nav-item" data-section="1">The Entrance</a>
+        <a href="#craft" class="nav-item" data-section="2">The Craft</a>
+        <a href="#spa" class="nav-item" data-section="3">The Spa</a>
+        <a href="#portfolio" class="nav-item" data-section="4">Portfolio</a>
+      </nav>
 
-      <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Menu">
-        <i data-lucide="menu"></i>
+      <div class="nav-actions">
+        <button class="btn-glowing-outline" id="openMenuBtn" aria-label="Services Menu">
+          <i data-lucide="sparkles"></i>
+          <span>Menu</span>
+        </button>
+        <button class="btn-glowing-gold" id="openBookingBtn">
+          <i data-lucide="calendar"></i>
+          <span>Book Now</span>
+        </button>
+        <button class="mobile-menu-toggle" id="mobileToggle" aria-label="Toggle Menu">
+          <i data-lucide="menu"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE NAVIGATION DRAWER -->
+  <div class="mobile-drawer" id="mobileDrawer">
+    <div class="mobile-drawer-header">
+      <span class="mobile-brand">ARIA LAURENT</span>
+      <button class="close-drawer-btn" id="closeMobileDrawer"><i data-lucide="x"></i></button>
+    </div>
+    <div class="mobile-drawer-links">
+      <a href="#hero" class="mobile-link" data-section="0">01. The Salon</a>
+      <a href="#entrance" class="mobile-link" data-section="1">02. The Entrance</a>
+      <a href="#craft" class="mobile-link" data-section="2">03. The Craft</a>
+      <a href="#spa" class="mobile-link" data-section="3">04. The Spa</a>
+      <a href="#portfolio" class="mobile-link" data-section="4">05. Portfolio</a>
+      <a href="#booking-section" class="mobile-link">06. Private Reservations</a>
+    </div>
+    <div class="mobile-drawer-footer">
+      <button class="btn-glowing-gold w-100" id="mobileBookBtn">
+        <i data-lucide="calendar"></i>
+        <span>Book Appointment</span>
       </button>
     </div>
-  </nav>
+  </div>
 
-  <!-- MAIN CONTENT -->
-  <main id="mainContent" role="main">
+  <!-- FIXED CANVAS BACKGROUND STACK (GSAP SCROLLTRIGGER PINNED CROSSFADE) -->
+  <div class="bg-stack-canvas" id="bgStackCanvas">
+    <div class="scrim-overlay top-scrim"></div>
+    <div class="scrim-overlay bottom-scrim"></div>
+    <div class="scrim-overlay radial-vignette"></div>
 
-  <!-- HERO SECTION -->
-  <section class="hero" id="home">
-    <div class="hero-bg">
-      <img src="assets/images/hero.png" alt="Aria Laurent Haute Makeup Artistry Model" class="hero-bg-img" loading="eager" fetchpriority="high">
-      <div class="hero-bg-overlay"></div>
+    <!-- Slide 1: Hero Storefront Exterior Dusk -->
+    <div class="bg-slide active" id="bgSlide0">
+      <img src="img/img4.jpeg" alt="Aria Laurent Storefront Dusk exterior" class="bg-img">
     </div>
 
-    <!-- Sparkle Particles -->
-    <div class="sparkle-canvas" id="sparkleCanvas"></div>
+    <!-- Slide 2: Marble Entrance Reception -->
+    <div class="bg-slide" id="bgSlide1">
+      <img src="img/img 2.jpeg" alt="Aria Laurent Marble Reception Entrance" class="bg-img">
+    </div>
 
-    <div class="container">
-      <div class="hero-content">
-        <div class="hero-badge">
-          <i data-lucide="award"></i> Vogue & Harper's Bazaar Featured Artist
+    <!-- Slide 3: Styling Craft Station -->
+    <div class="bg-slide" id="bgSlide2">
+      <img src="img/img 1.png" alt="Hairstylist master craft precision cut" class="bg-img">
+    </div>
+
+    <!-- Slide 4: Emerald Head Spa Lounge -->
+    <div class="bg-slide" id="bgSlide3">
+      <img src="img/img 3.png" alt="Luxury Spa Wash Station" class="bg-img">
+    </div>
+
+    <!-- Slide 5: VIP Lounge Sanctuary -->
+    <div class="bg-slide" id="bgSlide4">
+      <img src="img/img5.png" alt="VIP Sanctuary Lounge" class="bg-img">
+    </div>
+  </div>
+
+  <!-- FIXED HUD PROGRESS TRACKER -->
+  <div class="hud-scroll-indicator" id="hudIndicator">
+    <div class="hud-track">
+      <div class="hud-bar" id="hudBar"></div>
+    </div>
+    <div class="hud-text">
+      <span class="hud-current" id="hudCurrent">01</span>
+      <span class="hud-divider">/</span>
+      <span class="hud-total">05</span>
+    </div>
+    <div class="hud-label" id="hudLabel">THE SALON</div>
+  </div>
+
+  <!-- SCROLL DOWN HINT -->
+  <div class="scroll-down-hint" id="scrollHint">
+    <span class="hint-text">SCROLL TO EXPERIENCE</span>
+    <div class="hint-line"><div class="hint-dot"></div></div>
+  </div>
+
+  <!-- MAIN SCROLL CONTAINER (5 CINEMATIC SECTIONS) -->
+  <main class="scroll-container" id="scrollContainer">
+
+    <!-- SECTION 1: THE SALON / HERO (STOREFRONT DUSK) -->
+    <section class="cinematic-section section-0" id="hero" data-index="0">
+      <div class="section-content glow-box">
+        <div class="badge-tag">
+          <i data-lucide="crown"></i>
+          <span>HAUTE BEAUTÉ & COIFFURE</span>
         </div>
-
-        <h1 class="hero-headline" id="heroHeadline">
-          <span class="word"><span class="word-inner">Beauty,</span></span>
-          <span class="word italic"><span class="word-inner">Refined.</span></span>
+        <h1 class="cinematic-title">
+          <span class="title-line">REDEFINING</span>
+          <span class="title-gold">HAIR ARTISTRY</span>
         </h1>
+        <p class="cinematic-subtitle">
+          Welcome to ARIA LAURENT. Step into a private sanctuary engineered for bespoke aesthetic transformation and high-fashion luxury coiffure.
+        </p>
+        <div class="action-group">
+          <button class="btn-glowing-gold trigger-booking">
+            <span>Book Appointment</span>
+            <i data-lucide="arrow-right"></i>
+          </button>
+          <button class="btn-glowing-outline trigger-menu">
+            <i data-lucide="compass"></i>
+            <span>Discover Services</span>
+          </button>
+        </div>
+        <div class="hero-highlights">
+          <div class="highlight-item">
+            <span class="highlight-num">4.9★</span>
+            <span class="highlight-desc">Vogue Featured</span>
+          </div>
+          <div class="highlight-divider"></div>
+          <div class="highlight-item">
+            <span class="highlight-num">100%</span>
+            <span class="highlight-desc">Private Suites</span>
+          </div>
+          <div class="highlight-divider"></div>
+          <div class="highlight-item">
+            <span class="highlight-num">VIP</span>
+            <span class="highlight-desc">Concierge</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <p class="hero-subheading">
-          Luxury makeup artistry tailored for high-profile brides, red carpet galas, and editorial moments worth remembering forever.
+    <!-- SECTION 2: THE ENTRANCE / EXPERIENCE OPULENCE -->
+    <section class="cinematic-section section-1" id="entrance" data-index="1">
+      <div class="section-content glow-box light-theme-box">
+        <div class="badge-tag tag-gold-filled">
+          <i data-lucide="gem"></i>
+          <span>ARCHITECTURAL ELEGANCE</span>
+        </div>
+        <h2 class="cinematic-title">
+          <span class="title-dark">THE ENTRANCE</span>
+          <span class="title-gold">EXPERIENCE OPULENCE</span>
+        </h2>
+        <p class="cinematic-subtitle dark-sub">
+          Italian Calacatta marble, backlit gold arched vanity mirrors, and customized leather styling stations crafted for absolute comfort.
+        </p>
+        <div class="feature-pills">
+          <div class="pill-card">
+            <i data-lucide="sparkle"></i>
+            <div>
+              <h4>Private Mirrors</h4>
+              <p>Backlit LED vanity bays</p>
+            </div>
+          </div>
+          <div class="pill-card">
+            <i data-lucide="glass-water"></i>
+            <div>
+              <h4>Champagne Welcome</h4>
+              <p>Dom Pérignon & organic tea</p>
+            </div>
+          </div>
+          <div class="pill-card">
+            <i data-lucide="shield-check"></i>
+            <div>
+              <h4>VIP Privacy</h4>
+              <p>Acoustic insulation & discretion</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: THE CRAFT / HAUTE COIFFURE ARTISTRY -->
+    <section class="cinematic-section section-2" id="craft" data-index="2">
+      <div class="section-content glow-box">
+        <div class="badge-tag">
+          <i data-lucide="scissors"></i>
+          <span>ARTISTRY IN MOTION</span>
+        </div>
+        <h2 class="cinematic-title">
+          <span class="title-line">THE CRAFT</span>
+          <span class="title-gold">MASTER CRAFTSMANSHIP</span>
+        </h2>
+        <p class="cinematic-subtitle">
+          Precision haircuts, organic French balayage, and silk press treatments designed around your unique bone structure and skin tone.
         </p>
 
-        <div class="hero-actions-row">
-          <a href="#booking" class="btn-minimized btn-primary-min">
+        <!-- CATEGORY SELECTION PILLS INSPIRED BY REFERENCE DESIGN -->
+        <div class="category-filter-bar">
+          <span class="cat-pill active">STYLING</span>
+          <span class="cat-pill">COLOR</span>
+          <span class="cat-pill">TREATMENTS</span>
+          <span class="cat-pill">EXTENSIONS</span>
+        </div>
+
+        <div class="services-mini-grid">
+          <div class="mini-service-box">
+            <span class="service-code">01 / CUT</span>
+            <h3>Sculptural Haircut</h3>
+            <p>Dry-cutting & face-framing silhouette. <strong>₹4,500</strong></p>
+          </div>
+          <div class="mini-service-box">
+            <span class="service-code">02 / COLOR</span>
+            <h3>Haute Balayage</h3>
+            <p>French multi-tonal lightening & gloss. <strong>₹12,500</strong></p>
+          </div>
+          <div class="mini-service-box">
+            <span class="service-code">03 / EXTENSIONS</span>
+            <h3>Invisible Micro-Links</h3>
+            <p>100% Virgin Slavic hair extensions. <strong>₹25,000</strong></p>
+          </div>
+        </div>
+        <div class="action-group">
+          <button class="btn-glowing-gold trigger-booking">
+            <span>Reserve Stylist</span>
+            <i data-lucide="arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: THE SPA / RESTORATIVE HAIR THERAPY -->
+    <section class="cinematic-section section-3" id="spa" data-index="3">
+      <div class="section-content glow-box emerald-theme-box">
+        <div class="badge-tag tag-emerald-gold">
+          <i data-lucide="droplet"></i>
+          <span>RELAXATION & REJUVENATION</span>
+        </div>
+        <h2 class="cinematic-title">
+          <span class="title-line">THE SPA</span>
+          <span class="title-gold">RESTORATIVE THERAPY</span>
+        </h2>
+        <p class="cinematic-subtitle">
+          Indulge in deep conditioning and sensory head massage treatments in zero-gravity ergonomic wash basins with thermal mist.
+        </p>
+        <div class="spa-features-row">
+          <div class="spa-card">
+            <div class="spa-icon"><i data-lucide="waves"></i></div>
+            <h3>Japanese Head Spa Ritual</h3>
+            <p>Micro-bubble scalp cleansing & acupressure head massage. <strong>₹7,500</strong></p>
+          </div>
+          <div class="spa-card">
+            <div class="spa-icon"><i data-lucide="flame"></i></div>
+            <h3>Caviar & 24K Gold Steam</h3>
+            <p>Ultrasonic lipid absorption & thermal hair wrap. <strong>₹10,500</strong></p>
+          </div>
+        </div>
+        <div class="action-group">
+          <button class="btn-glowing-gold trigger-booking">
+            <span>Experience Spa</span>
             <i data-lucide="calendar"></i>
-            <span>Book Look</span>
-          </a>
-          <a href="#portfolio" class="btn-minimized btn-secondary-min">
-            <i data-lucide="sparkles"></i>
-            <span>Explore</span>
-          </a>
-          <button class="btn-minimized btn-accent-min" id="openHeroQuizBtn">
-            <i data-lucide="wand-2"></i>
-            <span>Style Quiz</span>
           </button>
         </div>
       </div>
+    </section>
 
-      <div class="hero-footer-bar">
-        <div class="hero-stats-compact">
-          <div class="stat-pill">
-            <span class="stat-number" data-target="12">12+</span>
-            <span class="stat-label">Years</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat-pill">
-            <span class="stat-number" data-target="650">650+</span>
-            <span class="stat-label">Brides</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat-pill">
-            <span class="stat-number" data-target="99">99%</span>
-            <span class="stat-label">Happy</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat-pill">
-            <span class="stat-number">Vogue</span>
-            <span class="stat-label">Featured</span>
-          </div>
+    <!-- SECTION 5: PORTFOLIO & VIP SANCTUARY -->
+    <section class="cinematic-section section-4" id="portfolio" data-index="4">
+      <div class="section-content glow-box">
+        <div class="badge-tag">
+          <i data-lucide="star"></i>
+          <span>PORTFOLIO COUTURE</span>
         </div>
-      </div>
-    </div>
-
-    <a href="#transformation" class="scroll-indicator">
-      <span>Scroll</span>
-      <div class="scroll-line"></div>
-    </a>
-  </section>
-
-  <!-- Section Divider -->
-  <div class="section-divider">
-    <svg viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,0 C300,55 900,55 1200,0 L1200,60 L0,60 Z" fill="#110e0e"/>
-    </svg>
-  </div>
-
-  <!-- BEFORE & AFTER TRANSFORMATION SLIDER -->
-  <section class="transformation-section" id="transformation">
-    <div class="container">
-      <div class="transformation-grid">
-        <div class="transformation-text reveal reveal-left">
-          <div class="section-tag">Transformation Artistry</div>
-          <h2 class="section-title">
-            The Magic of <span>Flawless HD Glam.</span>
-          </h2>
-          <p class="section-subtitle" style="margin-bottom: 2rem;">
-            Experience the seamless evolution from natural radiance to iconic, camera-ready bridal skin that lasts 18+ hours without touchups.
-          </p>
-          <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
-            <button class="btn-primary" id="openQuizBtn">
-              <i data-lucide="sparkles"></i> Find Your Signature Look
-            </button>
-          </div>
-        </div>
-
-        <div class="ba-slider-container reveal reveal-right" id="baSlider">
-          <div class="ba-image ba-before">
-            <img src="assets/images/before_after.png" alt="Natural Skin Before Glam" loading="lazy">
-            <div class="ba-label before">Natural Canvas</div>
-          </div>
-          <div class="ba-image ba-after" id="baAfter">
-            <img src="assets/images/royal_bridal.png" alt="Haute Bridal HD Makeup After" loading="lazy">
-            <div class="ba-label after">Signature HD Glam</div>
-          </div>
-          <div class="ba-handle" id="baHandle">
-            <i data-lucide="chevrons-left-right"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section Divider -->
-  <div class="section-divider">
-    <svg viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,0 C300,55 900,55 1200,0 L1200,60 L0,60 Z" fill="#080707"/>
-    </svg>
-  </div>
-
-  <!-- ABOUT THE ARTIST -->
-  <section class="about-section" id="about">
-    <div class="container">
-      <div class="about-grid">
-        <div class="about-image-column reveal reveal-left">
-          <div class="about-portrait-frame">
-            <img src="assets/images/artist.png" alt="Aria Laurent - Master Makeup Artist" loading="lazy">
-          </div>
-          <div class="about-experience-badge">
-            <span class="stat-number">12+</span>
-            <span class="stat-label">Years Experience</span>
-          </div>
-        </div>
-
-        <div class="about-content reveal reveal-right">
-          <div class="section-tag">Master Artist Profile</div>
-          <h2 class="section-title">
-            Aria Laurent — <span>Sculpting Timeless Beauty.</span>
-          </h2>
-          <p class="about-story">
-            Trained under master beauty artists in Paris and London, Aria Laurent has spent over a decade perfecting the art of luminous, weightless makeup. Her philosophy revolves around highlighting each individual's unique features with ethereal light, skin-first prep, and bespoke color curation.
-          </p>
-
-          <div style="margin-bottom: 2.5rem;">
-            <div class="brands-marquee-title">Couture Products & Beauty Houses Used</div>
-            <div class="brands-marquee-wrapper">
-              <div class="brands-marquee-track">
-                <span class="brand-pill-marquee">Tom Ford Beauty</span>
-                <span class="brand-pill-marquee">Charlotte Tilbury</span>
-                <span class="brand-pill-marquee">Dior Makeup</span>
-                <span class="brand-pill-marquee">Chanel Haute Beauté</span>
-                <span class="brand-pill-marquee">Pat McGrath Labs</span>
-                <span class="brand-pill-marquee">NARS Cosmetic</span>
-                <span class="brand-pill-marquee">Armani Beauty</span>
-                <span class="brand-pill-marquee">YSL Beauté</span>
-                <!-- Duplicate for seamless loop -->
-                <span class="brand-pill-marquee">Tom Ford Beauty</span>
-                <span class="brand-pill-marquee">Charlotte Tilbury</span>
-                <span class="brand-pill-marquee">Dior Makeup</span>
-                <span class="brand-pill-marquee">Chanel Haute Beauté</span>
-                <span class="brand-pill-marquee">Pat McGrath Labs</span>
-                <span class="brand-pill-marquee">NARS Cosmetic</span>
-                <span class="brand-pill-marquee">Armani Beauty</span>
-                <span class="brand-pill-marquee">YSL Beauté</span>
-              </div>
-            </div>
-          </div>
-
-          <a href="#portfolio" class="btn-secondary">
-            <span>View Editorial Portfolio</span>
-            <i data-lucide="arrow-up-right"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section Divider -->
-  <div class="section-divider">
-    <svg viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,0 C300,55 900,55 1200,0 L1200,60 L0,60 Z" fill="#141010"/>
-    </svg>
-  </div>
-
-  <!-- SERVICES & PRICE GUIDE -->
-  <section class="services-section" id="services">
-    <div class="container">
-      <div class="portfolio-header reveal">
-        <div class="section-tag">Curated Offerings</div>
-        <h2 class="section-title">
-          Bespoke Beauty <span>Services.</span>
+        <h2 class="cinematic-title">
+          <span class="title-line">JOURNEY TO PERFECTION</span>
+          <span class="title-gold">HAUTE PORTFOLIO</span>
         </h2>
-        <p class="section-subtitle">
-          Each service includes luxury skin prep, custom lash application, and high-end setting formulas tailored to your event lighting.
+        <p class="cinematic-subtitle">
+          Explore our bespoke hair couture transformations, private VIP suites, and celebrity client lounge.
         </p>
-      </div>
 
-      <div class="services-grid reveal-stagger">
-        <!-- Service 1 -->
-        <div class="service-card">
-          <div>
-            <div class="service-number">01</div>
-            <h3 class="service-name">Bridal Makeup</h3>
-            <p class="service-desc">
-              Comprehensive bridal glam including 24k gold skin infusion, waterproof airbrush HD makeup, luxury lashes, and veil placement.
-            </p>
+        <!-- 4 PORTFOLIO CARDS INSPIRED BY REFERENCE 2 -->
+        <div class="gallery-preview-strip">
+          <div class="gallery-thumb trigger-lightbox" data-img="img/img6.jpeg" data-caption="Private VIP Consultation Suite">
+            <img src="img/img6.jpeg" alt="VIP Suite Preview">
+            <div class="thumb-overlay"><i data-lucide="eye"></i></div>
           </div>
-          <div>
-            <div class="service-meta">
-              <span class="service-duration"><i data-lucide="clock"></i> 2.5 Hours</span>
-              <span class="service-price">$450+</span>
-            </div>
-            <a href="#booking" class="btn-primary" style="width: 100%; text-align: center;">Reserve Service</a>
+          <div class="gallery-thumb trigger-lightbox" data-img="img/img7.png" data-caption="Bespoke Color Formulation Bar">
+            <img src="img/img7.png" alt="Color Bar Preview">
+            <div class="thumb-overlay"><i data-lucide="eye"></i></div>
           </div>
-        </div>
-
-        <!-- Service 2 -->
-        <div class="service-card">
-          <div>
-            <div class="service-number">02</div>
-            <h3 class="service-name">Engagement Glam</h3>
-            <p class="service-desc">
-              Romantic soft-focus makeup tailored for close-up photography, outdoor sunset lighting, and high-definition cameras.
-            </p>
+          <div class="gallery-thumb trigger-lightbox" data-img="img/img8.jpeg" data-caption="Luxury Styling Vanity & Products">
+            <img src="img/img8.jpeg" alt="Styling Station Preview">
+            <div class="thumb-overlay"><i data-lucide="eye"></i></div>
           </div>
-          <div>
-            <div class="service-meta">
-              <span class="service-duration"><i data-lucide="clock"></i> 1.5 Hours</span>
-              <span class="service-price">$300+</span>
-            </div>
-            <a href="#booking" class="btn-primary" style="width: 100%; text-align: center;">Reserve Service</a>
+          <div class="gallery-thumb trigger-lightbox" data-img="img/img9 exit this side.jpeg" data-caption="Sanctuary Lounge & Exit Parlor">
+            <img src="img/img9 exit this side.jpeg" alt="Sanctuary Exit Parlor">
+            <div class="thumb-overlay"><i data-lucide="eye"></i></div>
           </div>
         </div>
 
-        <!-- Service 3 -->
-        <div class="service-card">
-          <div>
-            <div class="service-number">03</div>
-            <h3 class="service-name">Party & Red Carpet</h3>
-            <p class="service-desc">
-              Sophisticated evening look featuring smokey eyes, sculpted contouring, and luminous champagne skin glow.
-            </p>
-          </div>
-          <div>
-            <div class="service-meta">
-              <span class="service-duration"><i data-lucide="clock"></i> 1.5 Hours</span>
-              <span class="service-price">$250+</span>
-            </div>
-            <a href="#booking" class="btn-primary" style="width: 100%; text-align: center;">Reserve Service</a>
-          </div>
-        </div>
-
-        <!-- Service 4 -->
-        <div class="service-card">
-          <div>
-            <div class="service-number">04</div>
-            <h3 class="service-name">HD Glass Skin Glam</h3>
-            <p class="service-desc">
-              Ultra-lightweight micro-pigment technique that creates a reflective, poreless finish for 4K video shoots.
-            </p>
-          </div>
-          <div>
-            <div class="service-meta">
-              <span class="service-duration"><i data-lucide="clock"></i> 2 Hours</span>
-              <span class="service-price">$350+</span>
-            </div>
-            <a href="#booking" class="btn-primary" style="width: 100%; text-align: center;">Reserve Service</a>
-          </div>
-        </div>
-
-        <!-- Service 5 -->
-        <div class="service-card">
-          <div>
-            <div class="service-number">05</div>
-            <h3 class="service-name">Editorial & Shoot</h3>
-            <p class="service-desc">
-              Avant-garde fashion concepts with full on-set retouching support for magazine covers and runway shows.
-            </p>
-          </div>
-          <div>
-            <div class="service-meta">
-              <span class="service-duration"><i data-lucide="clock"></i> Half / Full Day</span>
-              <span class="service-price">$600+</span>
-            </div>
-            <a href="#booking" class="btn-primary" style="width: 100%; text-align: center;">Reserve Service</a>
-          </div>
-        </div>
-
-        <!-- Service 6 -->
-        <div class="service-card">
-          <div>
-            <div class="service-number">06</div>
-            <h3 class="service-name">Hairstyling & Draping</h3>
-            <p class="service-desc">
-              Couture Hollywood waves, intricate textured buns, floral hair styling, and precision sari/dupatta draping.
-            </p>
-          </div>
-          <div>
-            <div class="service-meta">
-              <span class="service-duration"><i data-lucide="clock"></i> 1.5 Hours</span>
-              <span class="service-price">$200+</span>
-            </div>
-            <a href="#booking" class="btn-primary" style="width: 100%; text-align: center;">Reserve Service</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section Divider -->
-  <div class="section-divider">
-    <svg viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,0 C300,55 900,55 1200,0 L1200,60 L0,60 Z" fill="#080707"/>
-    </svg>
-  </div>
-
-  <!-- PORTFOLIO EDITORIAL GALLERY -->
-  <section class="portfolio-section" id="portfolio">
-    <div class="container">
-      <div class="portfolio-header reveal">
-        <div class="section-tag">Haute Gallery</div>
-        <h2 class="section-title">
-          Selected <span>Works & Looks.</span>
-        </h2>
-
-        <div class="portfolio-filters" id="portfolioFilters">
-          <button class="filter-btn active" data-filter="all">All</button>
-          <button class="filter-btn" data-filter="bridal">Bridal</button>
-          <button class="filter-btn" data-filter="engagement">Engagement</button>
-          <button class="filter-btn" data-filter="party">Party</button>
-          <button class="filter-btn" data-filter="editorial">Editorial</button>
-          <button class="filter-btn" data-filter="hd">HD Makeup</button>
-        </div>
-      </div>
-
-      <div class="portfolio-grid reveal-stagger" id="portfolioGrid">
-        <!-- Item 1 -->
-        <div class="portfolio-card tall" data-category="bridal" data-title="Couture Royal Bride" data-img="assets/images/bridal.png" tabindex="0" role="button" aria-label="View Couture Royal Bride look">
-          <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="assets/images/bridal.png" alt="Couture Royal Bride" class="portfolio-img" loading="lazy">
-          <div class="portfolio-overlay">
-            <span class="portfolio-category">Bridal Artistry</span>
-            <h3 class="portfolio-title">The Royal Riviera Look</h3>
-          </div>
-          <div class="portfolio-zoom-icon"><i data-lucide="maximize-2"></i></div>
-        </div>
-
-        <!-- Item 2 -->
-        <div class="portfolio-card" data-category="editorial" data-title="Gold Leaf Runway" data-img="assets/images/editorial.png" tabindex="0" role="button" aria-label="View Gold Leaf Runway look">
-          <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="assets/images/editorial.png" alt="Gold Leaf Editorial Look" class="portfolio-img" loading="lazy">
-          <div class="portfolio-overlay">
-            <span class="portfolio-category">Editorial</span>
-            <h3 class="portfolio-title">Vogue Autumn Spread</h3>
-          </div>
-          <div class="portfolio-zoom-icon"><i data-lucide="maximize-2"></i></div>
-        </div>
-
-        <!-- Item 3 -->
-        <div class="portfolio-card" data-category="engagement" data-title="Soft Rose Engagement" data-img="assets/images/engagement.png" tabindex="0" role="button" aria-label="View Soft Rose Engagement look">
-          <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="assets/images/engagement.png" alt="Soft Rose Engagement Look" class="portfolio-img" loading="lazy">
-          <div class="portfolio-overlay">
-            <span class="portfolio-category">Engagement</span>
-            <h3 class="portfolio-title">Sunset Romance Glow</h3>
-          </div>
-          <div class="portfolio-zoom-icon"><i data-lucide="maximize-2"></i></div>
-        </div>
-
-        <!-- Item 4 -->
-        <div class="portfolio-card" data-category="hd" data-title="Luminous Glass Skin" data-img="assets/images/hero.png" tabindex="0" role="button" aria-label="View Luminous Glass Skin look">
-          <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="assets/images/hero.png" alt="Luminous Glass Skin HD Glam" class="portfolio-img" loading="lazy">
-          <div class="portfolio-overlay">
-            <span class="portfolio-category">HD Glam</span>
-            <h3 class="portfolio-title">Monochrome Velvet Skin</h3>
-          </div>
-          <div class="portfolio-zoom-icon"><i data-lucide="maximize-2"></i></div>
-        </div>
-
-        <!-- Item 5 -->
-        <div class="portfolio-card" data-category="party" data-title="Smokey Champagne Party" data-img="assets/images/royal_bridal.png" tabindex="0" role="button" aria-label="View Smokey Champagne Party look">
-          <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="assets/images/royal_bridal.png" alt="Party Smokey Glam" class="portfolio-img" loading="lazy">
-          <div class="portfolio-overlay">
-            <span class="portfolio-category">Party</span>
-            <h3 class="portfolio-title">Gala Midnight Glam</h3>
-          </div>
-          <div class="portfolio-zoom-icon"><i data-lucide="maximize-2"></i></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section Divider -->
-  <div class="section-divider">
-    <svg viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,0 C300,55 900,55 1200,0 L1200,60 L0,60 Z" fill="#080707"/>
-    </svg>
-  </div>
-
-  <!-- BRIDAL EXPERIENCE JOURNEY -->
-  <section class="bridal-section" id="bridal">
-    <div class="container">
-      <div class="bridal-banner">
-        <div class="reveal reveal-left">
-          <div class="section-tag">The Bridal Process</div>
-          <h2 class="section-title">
-            Your Bespoke <span>Bridal Journey.</span>
-          </h2>
-          <p class="section-subtitle" style="margin-bottom: 2rem;">
-            From the initial aesthetic consultation to the final wedding day touch-ups, experience seamless luxury designed around your peace of mind.
-          </p>
-          <a href="#booking" class="btn-primary">Book Consultation</a>
-        </div>
-
-        <div class="bridal-img-wrapper reveal reveal-right">
-          <div class="bridal-img-frame">
-            <img src="assets/images/bridal.png" alt="Luxury Bride Portrait Process" loading="lazy">
-          </div>
-        </div>
-      </div>
-
-      <div class="bridal-timeline reveal-stagger">
-        <div class="timeline-step">
-          <div class="step-node">01</div>
-          <h3 class="step-title">Consultation</h3>
-          <p class="step-desc">
-            Virtual or in-studio session analyzing your outfit embroidery, jewelry undertones, lighting schemes, and skin profile.
-          </p>
-        </div>
-
-        <div class="timeline-step">
-          <div class="step-node">02</div>
-          <h3 class="step-title">Preview Trial</h3>
-          <p class="step-desc">
-            A 3-hour trial testing 2 distinct look variations, skin prep pairings, lash customization, and camera flash testing.
-          </p>
-        </div>
-
-        <div class="timeline-step">
-          <div class="step-node">03</div>
-          <h3 class="step-title">Final Look Blueprint</h3>
-          <p class="step-desc">
-            Finalizing product selections, lip palette mix, timeline allocation for bridal party, and touch-up emergency kit.
-          </p>
-        </div>
-
-        <div class="timeline-step">
-          <div class="step-node">04</div>
-          <h3 class="step-title">Wedding Day Elegance</h3>
-          <p class="step-desc">
-            On-location luxury setup with calming ambient aromatics, flawless application, veil draping, and final glow check.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section Divider -->
-  <div class="section-divider">
-    <svg viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,0 C300,55 900,55 1200,0 L1200,60 L0,60 Z" fill="#141010"/>
-    </svg>
-  </div>
-
-  <!-- PACKAGES SECTION -->
-  <section class="packages-section" id="packages">
-    <div class="container">
-      <div class="portfolio-header reveal">
-        <div class="section-tag">Curated Collections</div>
-        <h2 class="section-title">
-          Signature <span>Bridal Packages.</span>
-        </h2>
-        <p class="section-subtitle">
-          Designed for brides who demand uncompromised artistry and seamless wedding day serenity.
-        </p>
-      </div>
-
-      <div class="packages-grid reveal-stagger">
-        <!-- Package 1 -->
-        <div class="package-card">
-          <h3 class="package-name">Essential Bridal</h3>
-          <p class="package-tagline">Intimate Wedding & Reception</p>
-          <div class="package-price">$650 <span>/ event</span></div>
-          <ul class="package-features">
-            <li><i data-lucide="check"></i> On-Location HD Airbrush Makeup</li>
-            <li><i data-lucide="check"></i> Signature Lash Application</li>
-            <li><i data-lucide="check"></i> Hairstyling & Dupatta Draping</li>
-            <li><i data-lucide="check"></i> 24k Gold Hydration Skin Prep</li>
-            <li><i data-lucide="check"></i> Luxury Mini Touch-Up Kit</li>
-          </ul>
-          <a href="#booking" class="btn-secondary" style="text-align: center; justify-content: center;">Choose Essential</a>
-        </div>
-
-        <!-- Package 2 (Featured) -->
-        <div class="package-card featured">
-          <div class="package-badge">Most Requested</div>
-          <h3 class="package-name">Signature Royal</h3>
-          <p class="package-tagline">Main Wedding & Sangeet / Gala</p>
-          <div class="package-price">$1,250 <span>/ 2 events</span></div>
-          <ul class="package-features">
-            <li><i data-lucide="check"></i> Includes Full In-Studio Trial Look</li>
-            <li><i data-lucide="check"></i> 2 Event Makeup & Hair Services</li>
-            <li><i data-lucide="check"></i> Premium Mink Lash Customization</li>
-            <li><i data-lucide="check"></i> 2 Mother-of-the-Bride Express Looks</li>
-            <li><i data-lucide="check"></i> Full Day On-Set Touchup Support</li>
-            <li><i data-lucide="check"></i> Luxury Bridal Beauty Gift Box</li>
-          </ul>
-          <a href="#booking" class="btn-primary" style="text-align: center; justify-content: center;">Reserve Signature</a>
-        </div>
-
-        <!-- Package 3 -->
-        <div class="package-card">
-          <h3 class="package-name">Haute Luxury VIP</h3>
-          <p class="package-tagline">Full Destination Wedding Experience</p>
-          <div class="package-price">$2,400 <span>/ multi-day</span></div>
-          <ul class="package-features">
-            <li><i data-lucide="check"></i> Up to 4 Destination Event Looks</li>
-            <li><i data-lucide="check"></i> Unlimited Guest Count Consultation</li>
-            <li><i data-lucide="check"></i> Complete Team of Senior Stylists</li>
-            <li><i data-lucide="check"></i> 24/7 Concierge Beauty Retouching</li>
-            <li><i data-lucide="check"></i> Luxury Skin Therapy Infusions</li>
-          </ul>
-          <a href="#booking" class="btn-secondary" style="text-align: center; justify-content: center;">Enquire VIP Access</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section Divider -->
-  <div class="section-divider">
-    <svg viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,0 C300,55 900,55 1200,0 L1200,60 L0,60 Z" fill="#110e0e"/>
-    </svg>
-  </div>
-
-  <!-- TESTIMONIALS -->
-  <section class="testimonials-section" id="testimonials">
-    <div class="container">
-      <div class="portfolio-header reveal">
-        <div class="section-tag">Words of Delight</div>
-        <h2 class="section-title">
-          Client <span>Love Stories.</span>
-        </h2>
-      </div>
-
-      <div class="testimonials-carousel-wrapper reveal">
-        <div class="testimonials-track" id="testimonialsTrack">
-          <!-- Slide 1 -->
-          <div class="testimonial-slide">
-            <div class="testimonial-card">
-              <p class="testimonial-quote">
-                "Aria made me feel like an absolute queen on my wedding day. The makeup lasted through 14 hours of emotional tears and dancing without a single crease!"
-              </p>
-              <div class="testimonial-author">
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" alt="Bride Sophia" class="author-avatar" loading="lazy">
-                <div class="author-info">
-                  <h4>Sophia Montgomery</h4>
-                  <p>Lake Como Wedding Bride</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="testimonial-card">
-              <p class="testimonial-quote">
-                "Her skin prep technique is unmatched! My face felt weightless and natural, yet looked completely flawless in every high-definition photo."
-              </p>
-              <div class="testimonial-author">
-                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=150&q=80" alt="Client Victoria" class="author-avatar" loading="lazy">
-                <div class="author-info">
-                  <h4>Victoria Kensington</h4>
-                  <p>Vogue Gala Guest</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="testimonial-card">
-              <p class="testimonial-quote">
-                "The trial and wedding process was effortless. Aria understood my exact vision for a soft rose-gold look and elevated it beyond my dreams."
-              </p>
-              <div class="testimonial-author">
-                <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=150&q=80" alt="Bride Elena" class="author-avatar" loading="lazy">
-                <div class="author-info">
-                  <h4>Elena Rostova</h4>
-                  <p>Royal Garden Bride</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Slide 2 -->
-          <div class="testimonial-slide">
-            <div class="testimonial-card">
-              <p class="testimonial-quote">
-                "Absolutely stunning work! From the consultation call to the final touch on my wedding morning, every moment felt like a five-star spa experience."
-              </p>
-              <div class="testimonial-author">
-                <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=150&q=80" alt="Client Isabella" class="author-avatar" loading="lazy">
-                <div class="author-info">
-                  <h4>Isabella Marchetti</h4>
-                  <p>Tuscany Destination Bride</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="testimonial-card">
-              <p class="testimonial-quote">
-                "I booked the Signature Royal package for my daughter's wedding. The entire team was professional, punctual, and made every guest feel special."
-              </p>
-              <div class="testimonial-author">
-                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&q=80" alt="Client Catherine" class="author-avatar" loading="lazy">
-                <div class="author-info">
-                  <h4>Catherine DuPont</h4>
-                  <p>Mother of the Bride</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="testimonial-card">
-              <p class="testimonial-quote">
-                "As a fashion editor, I've worked with many artists. Aria's editorial technique is on another level — precise, creative, and utterly timeless."
-              </p>
-              <div class="testimonial-author">
-                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80" alt="Editor Marcus" class="author-avatar" loading="lazy">
-                <div class="author-info">
-                  <h4>Marcus Bellingham</h4>
-                  <p>Vogue Editorial Director</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="carousel-controls" role="group" aria-label="Testimonial carousel navigation">
-          <button class="carousel-btn" id="carouselPrev" aria-label="Previous testimonials">
-            <i data-lucide="chevron-left"></i>
-          </button>
-          <div class="carousel-dots" id="carouselDots">
-            <button class="carousel-dot active" data-slide="0" aria-label="Slide 1"></button>
-            <button class="carousel-dot" data-slide="1" aria-label="Slide 2"></button>
-          </div>
-          <button class="carousel-btn" id="carouselNext" aria-label="Next testimonials">
-            <i data-lucide="chevron-right"></i>
+        <div class="action-group">
+          <button class="btn-glowing-gold trigger-booking">
+            <span>Book VIP Suite (₹35,000)</span>
+            <i data-lucide="crown"></i>
           </button>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- INSTAGRAM SOCIAL GALLERY -->
-  <section class="social-section">
-    <div class="container">
-      <div class="reveal" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem;">
-        <div>
-          <div class="section-tag">@aria.laurent.beauty</div>
-          <h2 class="section-title">Follow on <span>Instagram.</span></h2>
-        </div>
-        <a href="https://instagram.com" target="_blank" rel="noopener" class="btn-secondary">
-          <i data-lucide="instagram"></i> Follow @aria.laurent
-        </a>
-      </div>
-
-      <div class="social-grid reveal-stagger">
-        <div class="social-card">
-          <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="assets/images/hero.png" alt="Instagram Look 1" loading="lazy">
-          <div class="social-overlay">
-            <span><i data-lucide="heart"></i> 1.4k</span>
-            <span><i data-lucide="message-circle"></i> 82</span>
-          </div>
-        </div>
-        <div class="social-card">
-          <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="assets/images/bridal.png" alt="Instagram Look 2" loading="lazy">
-          <div class="social-overlay">
-            <span><i data-lucide="heart"></i> 2.8k</span>
-            <span><i data-lucide="message-circle"></i> 142</span>
-          </div>
-        </div>
-        <div class="social-card">
-          <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="assets/images/editorial.png" alt="Instagram Look 3" loading="lazy">
-          <div class="social-overlay">
-            <span><i data-lucide="heart"></i> 3.1k</span>
-            <span><i data-lucide="message-circle"></i> 204</span>
-          </div>
-        </div>
-        <div class="social-card">
-          <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="assets/images/engagement.png" alt="Instagram Look 4" loading="lazy">
-          <div class="social-overlay">
-            <span><i data-lucide="heart"></i> 1.9k</span>
-            <span><i data-lucide="message-circle"></i> 95</span>
-          </div>
-        </div>
-        <div class="social-card">
-          <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="assets/images/royal_bridal.png" alt="Instagram Look 5" loading="lazy">
-          <div class="social-overlay">
-            <span><i data-lucide="heart"></i> 2.2k</span>
-            <span><i data-lucide="message-circle"></i> 110</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section Divider -->
-  <div class="section-divider">
-    <svg viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,0 C300,55 900,55 1200,0 L1200,60 L0,60 Z" fill="#141010"/>
-    </svg>
-  </div>
-
-  <!-- BOOKING SECTION -->
-  <section class="booking-section" id="booking">
-    <div class="container">
-      <div class="booking-wrapper reveal reveal-scale">
-        <div class="booking-info-panel">
-          <div>
-            <div class="section-tag">Reservations</div>
-            <h2 class="section-title">
-              Request Your <span>Appointment.</span>
-            </h2>
-            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; margin-bottom: 2.5rem;">
-              Dates for 2026/2027 wedding seasons are strictly limited to ensure utmost personal dedication to each client.
-            </p>
-
-            <div style="display: flex; flex-direction: column; gap: 1.2rem;">
-              <div style="display: flex; align-items: center; gap: 1rem;">
-                <i data-lucide="map-pin" style="color: var(--accent-rose);"></i>
-                <span>Mayfair Studio, London & Global Travel</span>
-              </div>
-              <div style="display: flex; align-items: center; gap: 1rem;">
-                <i data-lucide="mail" style="color: var(--accent-rose);"></i>
-                <span>concierge@arialaurent.com</span>
-              </div>
-              <div style="display: flex; align-items: center; gap: 1rem;">
-                <i data-lucide="phone" style="color: var(--accent-rose);"></i>
-                <span>+44 (0) 20 7946 0912</span>
-              </div>
-            </div>
-          </div>
-
-          <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-subtle);">
-            <div style="font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent-gold-subtle);">Estimated Booking Summary</div>
-            <div id="bookingCalcSummary" style="font-family: var(--font-serif); font-size: 1.8rem; color: var(--accent-rose-light); margin-top: 0.5rem;">
-              Bridal Service ($450)
-            </div>
-          </div>
-        </div>
-
-        <div class="booking-form-panel">
-          <form id="bookingForm" class="form-grid">
-            <div class="form-group">
-              <label for="clientName">Full Name *</label>
-              <input type="text" id="clientName" class="form-control" placeholder="Lady Evelyn Vance" required>
-            </div>
-
-            <div class="form-group">
-              <label for="clientEmail">Email Address *</label>
-              <input type="email" id="clientEmail" class="form-control" placeholder="evelyn@domain.com" required>
-            </div>
-
-            <div class="form-group">
-              <label for="clientPhone">Phone / WhatsApp *</label>
-              <input type="tel" id="clientPhone" class="form-control" placeholder="+44 7700 900077" required>
-            </div>
-
-            <div class="form-group">
-              <label for="eventDate">Event Date *</label>
-              <input type="date" id="eventDate" class="form-control" required>
-            </div>
-
-            <div class="form-group">
-              <label for="serviceType">Service Selected *</label>
-              <select id="serviceType" class="form-control" required>
-                <option value="450">Bridal Makeup ($450+)</option>
-                <option value="300">Engagement Makeup ($300+)</option>
-                <option value="250">Party & Red Carpet ($250+)</option>
-                <option value="350">HD Glass Skin Glam ($350+)</option>
-                <option value="600">Editorial & Shoot ($600+)</option>
-                <option value="1250">Signature Royal Package ($1,250)</option>
-                <option value="2400">Haute Luxury VIP Package ($2,400)</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="guestCount">Number of Guests</label>
-              <select id="guestCount" class="form-control">
-                <option value="0">Bride Only</option>
-                <option value="150">+ 1 Guest ($150)</option>
-                <option value="300">+ 2 Guests ($300)</option>
-                <option value="450">+ 3 Guests ($450)</option>
-                <option value="600">Bridal Party (4+ Guests)</option>
-              </select>
-            </div>
-
-            <div class="form-group full-width">
-              <label for="eventLocation">Venue / Location</label>
-              <input type="text" id="eventLocation" class="form-control" placeholder="Hotel Ritz Paris, Claridge's London, Villa d'Este Como...">
-            </div>
-
-            <div class="form-group full-width">
-              <label for="clientMessage">Event Details & Specific Preferences</label>
-              <textarea id="clientMessage" class="form-control" placeholder="Tell us about your outfit tones, theme, or any aesthetic preferences..."></textarea>
-            </div>
-
-            <div class="form-group full-width" style="margin-top: 1rem;">
-              <button type="submit" class="btn-primary btn-submit" id="submitBtn" style="width: 100%;">
-                <span class="btn-text">
-                  <span>Request Your Appointment</span>
-                  <i data-lucide="send"></i>
-                </span>
-                <span class="btn-spinner"><div class="submit-spinner"></div></span>
-                <span class="btn-success"><svg class="submit-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
-              </button>
-            </div>
+    <!-- SECTION 6: STAY INSPIRED & FOOTER (INSPIRED BY REFERENCE 2) -->
+    <section class="footer-booking-section" id="booking-section">
+      <div class="container newsletter-box">
+        <div class="newsletter-inner">
+          <h3>STAY INSPIRED</h3>
+          <p>Subscribe to receive exclusive invitations to seasonal hair couture collections & private VIP access.</p>
+          <form class="newsletter-form" onsubmit="event.preventDefault(); showToast('Subscribed', 'Welcome to ARIA LAURENT Private Circle.');">
+            <input type="email" placeholder="YOUR EMAIL ADDRESS *" required>
+            <button type="submit" class="btn-glowing-gold">SUBSCRIBE</button>
           </form>
         </div>
       </div>
-    </div>
-  </section>
 
-  </main><!-- end #mainContent -->
-
-  <!-- LIGHTBOX MODAL -->
-  <div class="lightbox-modal" id="lightboxModal" role="dialog" aria-modal="true" aria-label="Portfolio image lightbox">
-    <div class="lightbox-content">
-      <button class="lightbox-close" id="lightboxClose">&times;</button>
-      <div class="lightbox-img-wrap">
-        <img src="" alt="Lightbox Image" id="lightboxImg">
-      </div>
-      <div class="lightbox-details">
-        <span class="portfolio-category" id="lightboxCategory">Category</span>
-        <h2 class="section-title" id="lightboxTitle" style="font-size: 2.2rem; margin-bottom: 1rem;">Title</h2>
-        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 2rem;" id="lightboxDesc">
-          Crafted with 24k gold skin prep, Charlotte Tilbury Pillow Talk lips, Tom Ford contouring, and airbrush HD finish.
-        </p>
-        <a href="#booking" class="btn-primary" id="lightboxBookBtn">Book This Look</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- STYLE FINDER QUIZ MODAL -->
-  <div class="lightbox-modal" id="quizModal" role="dialog" aria-modal="true" aria-label="Style finder quiz">
-    <div class="lightbox-content" style="grid-template-columns: 1fr; max-width: 650px; padding: 3rem;">
-      <button class="lightbox-close" id="quizClose">&times;</button>
-      <div class="section-tag">Interactive Style Finder</div>
-      <h2 class="section-title" style="font-size: 2.2rem;">Find Your Signature Look</h2>
-      <div id="quizBody" style="margin-top: 1.5rem;">
-        <div id="quizStep1">
-          <p style="color: var(--text-muted); margin-bottom: 1rem;">1. What is the occasion?</p>
-          <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-            <button class="btn-secondary quiz-opt" data-type="bridal">Grand Wedding Ceremony</button>
-            <button class="btn-secondary quiz-opt" data-type="engagement">Engagement / Pre-wedding Party</button>
-            <button class="btn-secondary quiz-opt" data-type="gala">Red Carpet Gala / Editorial</button>
+      <div class="container footer-grid">
+        <div class="footer-brand-col">
+          <h2 class="footer-logo">ARIA LAURENT</h2>
+          <p class="footer-tagline">PARIS • HAUTE COIFFURE & ARCHITECTURAL SPA</p>
+          <div class="social-links">
+            <a href="#" aria-label="Instagram"><i data-lucide="instagram"></i></a>
+            <a href="#" aria-label="Facebook"><i data-lucide="facebook"></i></a>
+            <a href="#" aria-label="TikTok"><i data-lucide="video"></i></a>
           </div>
         </div>
-        <div id="quizResult" style="display: none; text-align: center;">
-          <h3 style="font-size: 1.8rem; font-style: italic; color: var(--accent-rose-light); margin-bottom: 1rem;" id="quizResultTitle">Signature Royal Bridal Glam</h3>
-          <p style="color: var(--text-muted); margin-bottom: 2rem;" id="quizResultDesc">We recommend our 24k Gold HD Airbrush finish paired with Hollywood soft waves.</p>
-          <a href="#booking" class="btn-primary" id="quizBookBtn">Book Recommended Look</a>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- TOAST NOTIFICATION -->
-  <div class="toast-notification" id="toastNotification">
-    <i data-lucide="check-circle" style="color: var(--accent-champagne);"></i>
-    <div>
-      <h4 style="font-size: 0.95rem; color: var(--text-main);" id="toastTitle">Appointment Requested!</h4>
-      <p style="font-size: 0.8rem; color: var(--text-muted);" id="toastMsg">We will confirm availability within 24 hours.</p>
-    </div>
-  </div>
-
-  <!-- BACK TO TOP BUTTON -->
-  <a href="#home" class="back-to-top" id="backToTop" aria-label="Back to top">
-    <i data-lucide="chevron-up"></i>
-  </a>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-col">
-          <a href="#home" class="brand-logo" style="margin-bottom: 1.5rem;">
-            <span class="logo-main">Aria Laurent</span>
-            <span class="logo-sub">Haute Beauté Studio</span>
-          </a>
-          <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.7; max-width: 320px;">
-            International luxury makeup artist & beauty studio crafting editorial elegance, high-definition bridal looks, and timeless memories.
-          </p>
+        <div class="footer-info-col">
+          <h3>LOCATION & HOURS</h3>
+          <p class="info-line"><i data-lucide="map-pin"></i> 42 Rue du Faubourg Saint-Honoré, Paris</p>
+          <p class="info-line"><i data-lucide="clock"></i> Tuesday – Saturday: 09:00 — 20:00</p>
+          <p class="info-line"><i data-lucide="phone"></i> +91 98765 43210 / +33 (0)1 42 68 55 00</p>
+          <p class="info-line"><i data-lucide="mail"></i> concierge@arialaurent.com</p>
         </div>
 
-        <div class="footer-col">
-          <h4>Navigation</h4>
-          <ul class="footer-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About Artist</a></li>
-            <li><a href="#services">Services & Pricing</a></li>
-            <li><a href="#portfolio">Editorial Portfolio</a></li>
-            <li><a href="#bridal">Bridal Journey</a></li>
-            <li><a href="#packages">Signature Packages</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h4>Studio Locations</h4>
-          <ul class="footer-links">
-            <li><a href="#">Mayfair Studio, London UK</a></li>
-            <li><a href="#">Upper East Side, New York US</a></li>
-            <li><a href="#">Villa d'Este, Lake Como IT</a></li>
-            <li><a href="#">Destination Weddings Worldwide</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h4>Private Newsletter</h4>
-          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">
-            Receive exclusive seasonal trend updates & luxury beauty guides.
-          </p>
-          <div style="display: flex; gap: 0.5rem;">
-            <input type="email" class="form-control" placeholder="your@email.com" style="font-size: 0.8rem;">
-            <button class="btn-primary" style="padding: 0.8rem 1.2rem;"><i data-lucide="arrow-right"></i></button>
-          </div>
+        <div class="footer-form-col">
+          <h3>QUICK RESERVATION (INR ₹)</h3>
+          <form id="quickEnquiryForm" onsubmit="event.preventDefault(); showBookingSuccess();">
+            <div class="input-group">
+              <input type="text" placeholder="Full Name *" required>
+            </div>
+            <div class="input-group">
+              <input type="email" placeholder="Email Address *" required>
+            </div>
+            <div class="input-group">
+              <select required>
+                <option value="" disabled selected>Select Desired Experience</option>
+                <option value="haute-cut">Sculptural Cut & Style (₹4,500)</option>
+                <option value="balayage">French Balayage & Gloss (₹12,500)</option>
+                <option value="head-spa">Japanese Head Spa Ritual (₹7,500)</option>
+                <option value="vip-suite">Full VIP Suite Session (₹25,000)</option>
+              </select>
+            </div>
+            <button type="submit" class="btn-glowing-gold w-100">
+              <i data-lucide="send"></i>
+              <span>Send Reservation Request</span>
+            </button>
+          </form>
         </div>
       </div>
 
       <div class="footer-bottom">
-        <p>&copy; 2026 Aria Laurent Beauty Studio. All Rights Reserved.</p>
-        <div style="display: flex; gap: 1.5rem;">
-          <a href="#" style="color: var(--text-dim); text-decoration: none;">Privacy Policy</a>
-          <a href="#" style="color: var(--text-dim); text-decoration: none;">Terms of Service</a>
+        <div class="container bottom-flex">
+          <p>© 2026 ARIA LAURENT. All Rights Reserved. Haute Coiffure Paris.</p>
+          <div class="legal-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Concierge</a>
+          </div>
         </div>
       </div>
-    </div>
-  </footer>
+    </section>
 
-  <!-- Application Script -->
+  </main>
+
+  <!-- INTERACTIVE MODAL: VIP APPOINTMENT BOOKING DRAWER -->
+  <div class="modal-overlay" id="bookingModal">
+    <div class="modal-card">
+      <button class="close-modal-btn" id="closeBookingBtn"><i data-lucide="x"></i></button>
+
+      <div class="modal-header">
+        <div class="badge-tag-sm"><i data-lucide="calendar"></i> PRIVATE RESERVATIONS</div>
+        <h2>Reserve Your Experience</h2>
+        <p>Select your preferences below and our VIP Concierge will confirm your appointment within 1 hour.</p>
+      </div>
+
+      <form id="fullBookingForm" class="modal-form" onsubmit="handleFullBooking(event)">
+        <div class="form-step active" id="step1">
+          <label class="form-label">1. Choose Service Category</label>
+          <div class="service-selector-grid">
+            <label class="service-opt">
+              <input type="radio" name="service" value="Sculptural Haircut" checked>
+              <div class="opt-box">
+                <i data-lucide="scissors"></i>
+                <div class="opt-text">
+                  <strong>Sculptural Cut & Style</strong>
+                  <span>90 Mins • ₹4,500</span>
+                </div>
+              </div>
+            </label>
+            <label class="service-opt">
+              <input type="radio" name="service" value="French Balayage & Gloss">
+              <div class="opt-box">
+                <i data-lucide="sparkles"></i>
+                <div class="opt-text">
+                  <strong>French Balayage & Gloss</strong>
+                  <span>180 Mins • ₹12,500</span>
+                </div>
+              </div>
+            </label>
+            <label class="service-opt">
+              <input type="radio" name="service" value="Japanese Head Spa">
+              <div class="opt-box">
+                <i data-lucide="waves"></i>
+                <div class="opt-text">
+                  <strong>Japanese Head Spa Ritual</strong>
+                  <span>75 Mins • ₹7,500</span>
+                </div>
+              </div>
+            </label>
+            <label class="service-opt">
+              <input type="radio" name="service" value="Full VIP Suite Session">
+              <div class="opt-box">
+                <i data-lucide="crown"></i>
+                <div class="opt-text">
+                  <strong>Full VIP Suite Session</strong>
+                  <span>Half Day • ₹25,000</span>
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Preferred Date</label>
+            <input type="date" required id="bookingDate">
+          </div>
+          <div class="form-group">
+            <label>Preferred Time</label>
+            <select required id="bookingTime">
+              <option value="10:00 AM">10:00 AM</option>
+              <option value="12:30 PM">12:30 PM</option>
+              <option value="03:00 PM">03:00 PM</option>
+              <option value="05:30 PM">05:30 PM</option>
+              <option value="07:00 PM">07:00 PM</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Master Stylist Preference</label>
+            <select id="bookingStylist">
+              <option value="Any Master Artist">Any Master Artist</option>
+              <option value="Aria Laurent (Creative Director)">Aria Laurent (Creative Director)</option>
+              <option value="Jean-Luc Dubois (Senior Colorist)">Jean-Luc Dubois (Senior Colorist)</option>
+              <option value="Elena Rostova (Head Spa Specialist)">Elena Rostova (Head Spa Specialist)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your Full Name *</label>
+            <input type="text" placeholder="e.g. Ananya Sharma" required id="bookingName">
+          </div>
+          <div class="form-group">
+            <label>Phone Number *</label>
+            <input type="tel" placeholder="+91 98765 43210" required id="bookingPhone">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Special Notes & Dietary / Champagne Preference</label>
+          <textarea rows="2" placeholder="Let us know any hair history, allergies, or champagne preferences..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-glowing-gold w-100 modal-submit">
+          <i data-lucide="check-circle"></i>
+          <span>Confirm VIP Booking Request</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- INTERACTIVE MODAL: SERVICES & PRICING MENU DRAWER -->
+  <div class="modal-overlay" id="menuModal">
+    <div class="modal-card modal-card-wide">
+      <button class="close-modal-btn" id="closeMenuBtn"><i data-lucide="x"></i></button>
+
+      <div class="modal-header">
+        <div class="badge-tag-sm"><i data-lucide="book-open"></i> HAUTE COIFFURE TARIFF (INR ₹)</div>
+        <h2>Bespoke Services & Menu</h2>
+        <p>Curated luxury hair treatments executed with the finest Parisian products and technical mastery.</p>
+      </div>
+
+      <div class="menu-tabs">
+        <button class="menu-tab-btn active" data-tab="cut-style">Haute Haircuts</button>
+        <button class="menu-tab-btn" data-tab="color-artistry">Color Artistry</button>
+        <button class="menu-tab-btn" data-tab="head-spa">Japanese Head Spa</button>
+        <button class="menu-tab-btn" data-tab="vip-suite">VIP Suites</button>
+      </div>
+
+      <div class="menu-content-area">
+        <!-- Tab 1 -->
+        <div class="menu-tab-content active" id="tab-cut-style">
+          <div class="menu-item-row">
+            <div class="menu-item-info">
+              <h3>Signature Sculptural Haircut</h3>
+              <p>Scalp diagnosis, bespoke wash ritual, precision dry-cut & blow-dry styling.</p>
+            </div>
+            <span class="menu-price">₹4,500</span>
+          </div>
+          <div class="menu-item-row">
+            <div class="menu-item-info">
+              <h3>Editorial Runway Blowout</h3>
+              <p>Volumizing wash, Caviar heat protection, customized hot-tool styling.</p>
+            </div>
+            <span class="menu-price">₹3,500</span>
+          </div>
+          <div class="menu-item-row">
+            <div class="menu-item-info">
+              <h3>Silk Press & Smoothing Therapy</h3>
+              <p>Formaldehyde-free organic smoothing treatment for radiant glossy hair.</p>
+            </div>
+            <span class="menu-price">₹9,500</span>
+          </div>
+        </div>
+
+        <!-- Tab 2 -->
+        <div class="menu-tab-content" id="tab-color-artistry">
+          <div class="menu-item-row">
+            <div class="menu-item-info">
+              <h3>Haute Couture Balayage & Gloss</h3>
+              <p>Freehand painted lightener with bespoke toner glossing & bond reinforcement.</p>
+            </div>
+            <span class="menu-price">₹12,500</span>
+          </div>
+          <div class="menu-item-row">
+            <div class="menu-item-info">
+              <h3>Full Multi-Tonal Dimensional Foil</h3>
+              <p>Custom root melt, highlights, and intensive shine gloss treatment.</p>
+            </div>
+            <span class="menu-price">₹14,500</span>
+          </div>
+          <div class="menu-item-row">
+            <div class="menu-item-info">
+              <h3>Corrective Color & Transformation</h3>
+              <p>In-depth consultation, multi-step pigment correction, and lipid restorative mask.</p>
+            </div>
+            <span class="menu-price">₹18,000+</span>
+          </div>
+        </div>
+
+        <!-- Tab 3 -->
+        <div class="menu-tab-content" id="tab-head-spa">
+          <div class="menu-item-row">
+            <div class="menu-item-info">
+              <h3>Japanese Micro-Bubble Head Spa</h3>
+              <p>Deep follicle cleansing with scalp camera analysis, steam mist & acupressure.</p>
+            </div>
+            <span class="menu-price">₹7,500</span>
+          </div>
+          <div class="menu-item-row">
+            <div class="menu-item-info">
+              <h3>Imperial Caviar & Gold Scalp Elixir</h3>
+              <p>24K Gold infused hair serum massage, ultrasonic cold iron absorption & thermal wrap.</p>
+            </div>
+            <span class="menu-price">₹10,500</span>
+          </div>
+        </div>
+
+        <!-- Tab 4 -->
+        <div class="menu-tab-content" id="tab-vip-suite">
+          <div class="menu-item-row">
+            <div class="menu-item-info">
+              <h3>Private VIP Salon Suite (Half-Day)</h3>
+              <p>Exclusive access to private suite, dedicated stylist duo, champagne & caviar service.</p>
+            </div>
+            <span class="menu-price">₹35,000</span>
+          </div>
+          <div class="menu-item-row">
+            <div class="menu-item-info">
+              <h3>Bridal Haute Experience</h3>
+              <p>Private suite for Bride + 3 Guests, trial run, wedding day hair & makeup team.</p>
+            </div>
+            <span class="menu-price">₹65,000</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer-action">
+        <button class="btn-glowing-gold trigger-booking w-100">Book Selected Service</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIGHTBOX MODAL FOR GALLERY PREVIEW -->
+  <div class="lightbox-modal" id="lightboxModal">
+    <button class="close-lightbox-btn" id="closeLightboxBtn"><i data-lucide="x"></i></button>
+    <div class="lightbox-content">
+      <img src="" id="lightboxImg" alt="Gallery Preview">
+      <div class="lightbox-caption" id="lightboxCaption"></div>
+    </div>
+  </div>
+
+  <!-- SUCCESS TOAST NOTIFICATION -->
+  <div class="toast-notification" id="toastNotif">
+    <i data-lucide="check-circle"></i>
+    <div class="toast-text">
+      <h4 id="toastTitle">Reservation Submitted</h4>
+      <p id="toastMessage">Our VIP Concierge will contact you shortly.</p>
+    </div>
+  </div>
+
+  <!-- Main JS Script -->
   <script src="app.js"></script>
 </body>
 </html>

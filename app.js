@@ -1,749 +1,360 @@
 /* ==========================================================================
-   ARIA LAURENT — HAUTE MAKEUP & BEAUTY STUDIO
-   Application Logic & Micro-Interactions (Enhanced)
+   ARIA LAURENT — ULTRA-LUXURY SCROLL MOTION & INTERACTIVE JS ENGINE
+   Includes: Lenis Smooth Scroll, GSAP ScrollTrigger 5-Step Image Stack,
+   Non-glitchy Custom Golden Cursor, Interactive Modals, INR (₹) Currency Logic
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // ======================================================================
-  // PREFERS REDUCED MOTION CHECK
-  // ======================================================================
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-
   // 1. Initialize Lucide Icons
   if (window.lucide) {
     window.lucide.createIcons();
   }
 
-  // ======================================================================
-  // CUSTOM LERP SMOOTH SCROLL
-  // ======================================================================
-  if (!isTouchDevice && !prefersReducedMotion) {
-    let currentY = window.scrollY;
-    let targetY = window.scrollY;
-    let ease = 0.08;
-    let isScrolling = false;
-
-    window.addEventListener('wheel', (e) => {
-      e.preventDefault();
-      targetY += e.deltaY;
-      targetY = Math.max(0, Math.min(targetY, document.documentElement.scrollHeight - window.innerHeight));
-      if (!isScrolling) {
-        isScrolling = true;
-        requestAnimationFrame(updateScroll);
-      }
-    }, { passive: false });
-
-    function updateScroll() {
-      currentY += (targetY - currentY) * ease;
-      window.scrollTo(0, currentY);
-      
-      if (Math.abs(targetY - currentY) > 0.5) {
-        requestAnimationFrame(updateScroll);
-      } else {
-        currentY = targetY;
-        isScrolling = false;
-      }
-    }
-
-    // Handle hash links for smooth scroll
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        const targetId = this.getAttribute('href');
-        if (targetId === '#') return;
-        
-        const targetEl = document.querySelector(targetId);
-        if (targetEl) {
-          e.preventDefault();
-          targetY = targetEl.offsetTop;
-          if (!isScrolling) {
-            isScrolling = true;
-            requestAnimationFrame(updateScroll);
-          }
-        }
-      });
-    });
-    
-    // Sync targetY on manual scrollbar drag
-    window.addEventListener('scroll', () => {
-      if (!isScrolling) {
-        targetY = window.scrollY;
-        currentY = window.scrollY;
-      }
-    });
-  }
-
-  // ======================================================================
-  // PRELOADER (Instant load - no blank wait time)
-  // ======================================================================
+  // 2. Preloader Animation
   const preloader = document.getElementById('preloader');
-  if (preloader) {
-    const hidePreloader = () => {
-      preloader.classList.add('hidden');
-      triggerHeroAnimations();
-    };
+  const preloaderBar = document.getElementById('preloaderBar');
+  let loadProgress = 0;
 
-    if (document.readyState === 'complete') {
-      setTimeout(hidePreloader, 50);
+  const loadInterval = setInterval(() => {
+    loadProgress += Math.floor(Math.random() * 25) + 15;
+    if (loadProgress >= 100) {
+      loadProgress = 100;
+      clearInterval(loadInterval);
+      if (preloaderBar) preloaderBar.style.width = '100%';
+      setTimeout(() => {
+        if (preloader) preloader.classList.add('fade-out');
+        initScrollAnimations();
+      }, 400);
     } else {
-      window.addEventListener('load', () => {
-        setTimeout(hidePreloader, 50);
-      });
-      // Safety fallback: 800ms max
-      setTimeout(hidePreloader, 800);
+      if (preloaderBar) preloaderBar.style.width = loadProgress + '%';
     }
-  } else {
-    triggerHeroAnimations();
-  }
+  }, 100);
 
-  // ======================================================================
-  // HERO TEXT REVEAL + ENTRY ANIMATIONS
-  // ======================================================================
-  function triggerHeroAnimations() {
-    const heroSection = document.getElementById('home');
-    const heroHeadline = document.getElementById('heroHeadline');
+  // 3. Custom Golden Magnetic Cursor (Strict Desktop Only)
+  const cursorDot = document.getElementById('cursorDot');
+  const cursorRing = document.getElementById('cursorRing');
+  let mouseX = -100, mouseY = -100;
+  let ringX = -100, ringY = -100;
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || window.innerWidth <= 1024;
 
-    if (heroSection) {
-      heroSection.classList.add('hero-loaded');
-    }
-
-    if (heroHeadline) {
-      setTimeout(() => {
-        heroHeadline.classList.add('text-revealed');
-      }, 200);
-    }
-  }
-
-  // ======================================================================
-  // FLOATING SPARKLE PARTICLES (HERO)
-  // ======================================================================
-  const sparkleCanvas = document.getElementById('sparkleCanvas');
-  if (sparkleCanvas && !prefersReducedMotion) {
-    function createSparkle() {
-      const sparkle = document.createElement('div');
-      sparkle.classList.add('sparkle');
-      sparkle.style.left = Math.random() * 100 + '%';
-      sparkle.style.top = (40 + Math.random() * 50) + '%';
-      sparkle.style.width = (2 + Math.random() * 3) + 'px';
-      sparkle.style.height = sparkle.style.width;
-      sparkle.style.animationDuration = (3 + Math.random() * 4) + 's';
-      sparkle.style.animationDelay = Math.random() * 2 + 's';
-      sparkleCanvas.appendChild(sparkle);
-
-      // Remove after animation completes
-      setTimeout(() => {
-        sparkle.remove();
-      }, 8000);
-    }
-
-    // Create sparkles periodically
-    setInterval(createSparkle, 600);
-    // Initial burst
-    for (let i = 0; i < 8; i++) {
-      setTimeout(createSparkle, i * 200);
-    }
-  }
-
-  // ======================================================================
-  // CUSTOM MAGNETIC CURSOR
-  // ======================================================================
-  const cursor = document.getElementById('cursor');
-  const cursorFollower = document.getElementById('cursorFollower');
-
-  if (cursor && cursorFollower) {
-    let mouseX = 0, mouseY = 0;
-    let followerX = 0, followerY = 0;
-
-    document.addEventListener('mousemove', (e) => {
+  if (cursorDot && cursorRing && !isTouchDevice) {
+    window.addEventListener('mousemove', (e) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
-
-      cursor.style.left = `${mouseX}px`;
-      cursor.style.top = `${mouseY}px`;
+      cursorDot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
     });
 
-    function animateFollower() {
-      followerX += (mouseX - followerX) * 0.15;
-      followerY += (mouseY - followerY) * 0.15;
-
-      cursorFollower.style.left = `${followerX}px`;
-      cursorFollower.style.top = `${followerY}px`;
-
-      requestAnimationFrame(animateFollower);
+    function renderCursor() {
+      ringX += (mouseX - ringX) * 0.2;
+      ringY += (mouseY - ringY) * 0.2;
+      cursorRing.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
+      requestAnimationFrame(renderCursor);
     }
-    animateFollower();
+    requestAnimationFrame(renderCursor);
 
-    // Hover effect for interactive elements
-    const hoverables = document.querySelectorAll('a, button, input, select, textarea, .portfolio-card, .service-card, .social-card');
-    hoverables.forEach(el => {
-      el.addEventListener('mouseenter', () => document.body.classList.add('hovered'));
-      el.addEventListener('mouseleave', () => document.body.classList.remove('hovered'));
+    const hoverables = document.querySelectorAll('button, a, .gallery-thumb, input, select, label, .mini-service-box, .pill-card, .spa-card');
+    hoverables.forEach((el) => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
     });
-
-    // Enhanced cursor for media elements
-    const mediaElements = document.querySelectorAll('img, .portfolio-card, .social-card');
-    mediaElements.forEach(el => {
-      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-media'));
-      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-media'));
-    });
+  } else {
+    if (cursorDot) cursorDot.style.display = 'none';
+    if (cursorRing) cursorRing.style.display = 'none';
   }
 
-  // ======================================================================
-  // MAGNETIC BUTTON EFFECT
-  // ======================================================================
-  if (!isTouchDevice && !prefersReducedMotion) {
-    const magneticBtns = document.querySelectorAll('.btn-primary, .btn-secondary, .btn-minimized, .filter-btn');
-    
-    magneticBtns.forEach(btn => {
-      btn.addEventListener('mousemove', (e) => {
-        const rect = btn.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-        
-        btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
-        btn.style.transition = 'none';
-      });
-      
-      btn.addEventListener('mouseleave', () => {
-        btn.style.transform = `translate(0px, 0px)`;
-        btn.style.transition = 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
-      });
+  // 4. Initialize Lenis Smooth Scroll
+  let lenis = null;
+  if (typeof Lenis !== 'undefined') {
+    lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      touchMultiplier: 1.5,
     });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
   }
 
-  // ======================================================================
-  // HEADER SCROLL GLASSMORPHISM + ACTIVE NAV SPY SCROLL
-  // ======================================================================
-  const navbar = document.getElementById('navbar');
-  const navLinks = document.querySelectorAll('.nav-link:not(.nav-cta)');
-  const sections = document.querySelectorAll('section[id]');
-
-  function handleScroll() {
-    const scrollY = window.scrollY;
-
-    // Navbar background
-    if (scrollY > 50) {
-      navbar.classList.add('scrolled');
-    } else {
-      navbar.classList.remove('scrolled');
+  // 5. Scroll Animations & GSAP 5-Section Crossfade Engine
+  function initScrollAnimations() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+      console.warn('GSAP or ScrollTrigger not loaded, falling back to Intersection Observer');
+      fallbackIntersectionObserver();
+      return;
     }
 
-    // Active nav spy
-    let currentSection = '';
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop - 200;
-      const sectionHeight = section.offsetHeight;
-      if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
-        currentSection = section.getAttribute('id');
-      }
-    });
+    gsap.registerPlugin(ScrollTrigger);
 
-    navLinks.forEach(link => {
-      link.classList.remove('spy-active');
-      const href = link.getAttribute('href');
-      if (href && href === '#' + currentSection) {
-        link.classList.add('spy-active');
-      }
-    });
-  }
+    if (lenis) {
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+      });
+      gsap.ticker.lagSmoothing(0, 0);
+    }
 
-  window.addEventListener('scroll', handleScroll);
-  handleScroll();
+    const sections = document.querySelectorAll('.cinematic-section');
+    const bgSlides = document.querySelectorAll('.bg-slide');
+    const navItems = document.querySelectorAll('.nav-item');
+    const hudBar = document.getElementById('hudBar');
+    const hudCurrent = document.getElementById('hudCurrent');
+    const hudLabel = document.getElementById('hudLabel');
+    const navbar = document.getElementById('navbar');
 
-  // ======================================================================
-  // BACK TO TOP BUTTON
-  // ======================================================================
-  const backToTop = document.getElementById('backToTop');
-  if (backToTop) {
+    const sectionTitles = [
+      'THE SALON',
+      'THE ENTRANCE',
+      'THE CRAFT',
+      'THE SPA',
+      'PORTFOLIO'
+    ];
+
+    // Navbar Scroll Background Change
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 600) {
-        backToTop.classList.add('visible');
+      if (window.scrollY > 60) {
+        navbar.classList.add('scrolled');
       } else {
-        backToTop.classList.remove('visible');
+        navbar.classList.remove('scrolled');
       }
     });
+
+    // Create ScrollTrigger per section
+    sections.forEach((sec, idx) => {
+      ScrollTrigger.create({
+        trigger: sec,
+        start: 'top 60%',
+        end: 'bottom 40%',
+        onEnter: () => activateSection(idx),
+        onEnterBack: () => activateSection(idx),
+      });
+    });
+
+    function activateSection(index) {
+      // Update background slides crossfade
+      bgSlides.forEach((slide, i) => {
+        if (i === index) {
+          slide.classList.add('active');
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+
+      // Update section contents reveal
+      sections.forEach((sec, i) => {
+        if (i === index) {
+          sec.classList.add('section-active');
+        } else {
+          sec.classList.remove('section-active');
+        }
+      });
+
+      // Update Nav active indicator
+      navItems.forEach((item, i) => {
+        if (i === index) {
+          item.classList.add('active');
+        } else {
+          item.classList.remove('active');
+        }
+      });
+
+      // Update HUD Indicator
+      if (hudBar) {
+        hudBar.style.top = `${(index / 4) * 80}%`;
+      }
+      if (hudCurrent) {
+        hudCurrent.textContent = `0${index + 1}`;
+      }
+      if (hudLabel && sectionTitles[index]) {
+        hudLabel.textContent = sectionTitles[index];
+      }
+    }
+
+    // Set Section 0 as default active
+    activateSection(0);
   }
 
-  // ======================================================================
-  // SCROLL REVEAL (IntersectionObserver)
-  // ======================================================================
-  const revealElements = document.querySelectorAll('.reveal, .reveal-stagger');
+  // Fallback Intersection Observer if GSAP is blocked
+  function fallbackIntersectionObserver() {
+    const sections = document.querySelectorAll('.cinematic-section');
+    const bgSlides = document.querySelectorAll('.bg-slide');
 
-  if (revealElements.length > 0) {
-    const revealObserver = new IntersectionObserver((entries) => {
+    const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-          revealObserver.unobserve(entry.target);
+          const idx = parseInt(entry.target.getAttribute('data-index'), 10);
+          bgSlides.forEach((slide, i) => {
+            slide.classList.toggle('active', i === idx);
+          });
+          entry.target.classList.add('section-active');
         }
       });
-    }, {
-      threshold: 0.12,
-      rootMargin: '0px 0px -50px 0px'
-    });
+    }, { threshold: 0.4 });
 
-    revealElements.forEach(el => revealObserver.observe(el));
+    sections.forEach(sec => observer.observe(sec));
   }
 
-  // ======================================================================
-  // IMAGE WIPE REVEAL & BLUR-UP LAZY LOAD
-  // ======================================================================
-  const mediaObserver = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const target = entry.target;
-        
-        // Handle Lazy Load
-        if (target.hasAttribute('data-src')) {
-          const img = new Image();
-          img.src = target.getAttribute('data-src');
-          img.onload = () => {
-            target.src = img.src;
-            target.classList.add('img-loaded');
-          };
-          target.removeAttribute('data-src');
-        }
-        
-        // Handle Wipe Reveal
-        if (!prefersReducedMotion && (target.classList.contains('portfolio-img') || target.closest('.social-card'))) {
-          target.classList.add('wipe-revealed');
-        }
-        
-        observer.unobserve(target);
-      }
-    });
-  }, { rootMargin: '50px 0px', threshold: 0.1 });
-
-  const lazyImages = document.querySelectorAll('img[data-src]');
-  const wipeImages = document.querySelectorAll('.portfolio-img, .social-card img');
-  
-  lazyImages.forEach(img => mediaObserver.observe(img));
-  wipeImages.forEach(img => {
-    if (!img.hasAttribute('data-src')) {
-      mediaObserver.observe(img);
-    }
-  });
-
-  // ======================================================================
-  // MOBILE DRAWER NAVIGATION
-  // ======================================================================
-  const mobileToggle = document.getElementById('mobileToggle');
-  const navMenu = document.getElementById('navMenu');
-
-  if (mobileToggle && navMenu) {
-    mobileToggle.addEventListener('click', () => {
-      navMenu.classList.toggle('active');
-    });
-
-    navMenu.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        navMenu.classList.remove('active');
-      });
-    });
-  }
-
-  // ======================================================================
-  // BEFORE & AFTER TRANSFORMATION SLIDER
-  // ======================================================================
-  const baContainer = document.getElementById('baSlider');
-  const baAfter = document.getElementById('baAfter');
-  const baHandle = document.getElementById('baHandle');
-
-  if (baContainer && baAfter && baHandle) {
-    let isDragging = false;
-
-    const setSliderPosition = (x) => {
-      const rect = baContainer.getBoundingClientRect();
-      let position = x - rect.left;
-
-      if (position < 0) position = 0;
-      if (position > rect.width) position = rect.width;
-
-      const percentage = (position / rect.width) * 100;
-      baAfter.style.width = `${percentage}%`;
-      baHandle.style.left = `${percentage}%`;
-    };
-
-    baContainer.addEventListener('mousedown', (e) => {
-      isDragging = true;
-      setSliderPosition(e.clientX);
-    });
-
-    window.addEventListener('mousemove', (e) => {
-      if (!isDragging) return;
-      setSliderPosition(e.clientX);
-    });
-
-    window.addEventListener('mouseup', () => {
-      isDragging = false;
-    });
-
-    // Touch support
-    baContainer.addEventListener('touchstart', (e) => {
-      isDragging = true;
-      setSliderPosition(e.touches[0].clientX);
-    });
-
-    window.addEventListener('touchmove', (e) => {
-      if (!isDragging) return;
-      setSliderPosition(e.touches[0].clientX);
-    });
-
-    window.addEventListener('touchend', () => {
-      isDragging = false;
-    });
-  }
-
-  // ======================================================================
-  // PORTFOLIO FILTERING
-  // ======================================================================
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  const portfolioCards = document.querySelectorAll('.portfolio-card');
-
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      const filter = btn.getAttribute('data-filter');
-
-      portfolioCards.forEach(card => {
-        const cat = card.getAttribute('data-category');
-        if (filter === 'all' || cat === filter) {
-          card.style.display = 'block';
-          setTimeout(() => {
-            card.style.opacity = '1';
-            card.style.transform = 'scale(1)';
-          }, 50);
-        } else {
-          card.style.opacity = '0';
-          card.style.transform = 'scale(0.92)';
-          setTimeout(() => {
-            card.style.display = 'none';
-          }, 300);
-        }
-      });
-    });
-  });
-
-  // ======================================================================
-  // LIGHTBOX MODAL
-  // ======================================================================
-  const lightboxModal = document.getElementById('lightboxModal');
-  const lightboxImg = document.getElementById('lightboxImg');
-  const lightboxTitle = document.getElementById('lightboxTitle');
-  const lightboxCategory = document.getElementById('lightboxCategory');
-  const lightboxClose = document.getElementById('lightboxClose');
-  const lightboxBookBtn = document.getElementById('lightboxBookBtn');
-
-  portfolioCards.forEach(card => {
-    card.addEventListener('click', () => {
-      const img = card.getAttribute('data-img');
-      const title = card.getAttribute('data-title');
-      const category = card.querySelector('.portfolio-category')?.textContent || 'Haute Look';
-
-      lightboxImg.src = img;
-      lightboxTitle.textContent = title;
-      lightboxCategory.textContent = category;
-      lightboxModal.classList.add('active');
-    });
-  });
-
-  if (lightboxClose) {
-    lightboxClose.addEventListener('click', () => {
-      lightboxModal.classList.remove('active');
-    });
-  }
-
-  if (lightboxBookBtn) {
-    lightboxBookBtn.addEventListener('click', () => {
-      lightboxModal.classList.remove('active');
-    });
-  }
-
-  // Close modals on clicking backdrop
-  window.addEventListener('click', (e) => {
-    if (e.target === lightboxModal) {
-      lightboxModal.classList.remove('active');
-    }
-    const quizModal = document.getElementById('quizModal');
-    if (e.target === quizModal) {
-      quizModal.classList.remove('active');
-    }
-  });
-
-  // ======================================================================
-  // STYLE FINDER QUIZ MODAL
-  // ======================================================================
-  const quizTriggers = document.querySelectorAll('#openQuizBtn, #openHeroQuizBtn, .open-quiz-trigger');
-  const quizModal = document.getElementById('quizModal');
-  const quizClose = document.getElementById('quizClose');
-  const quizOpts = document.querySelectorAll('.quiz-opt');
-  const quizStep1 = document.getElementById('quizStep1');
-  const quizResult = document.getElementById('quizResult');
-
-  if (quizModal) {
-    quizTriggers.forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (quizStep1) quizStep1.style.display = 'block';
-        if (quizResult) quizResult.style.display = 'none';
-        quizModal.classList.add('active');
-      });
-    });
-  }
-
-  if (quizClose) {
-    quizClose.addEventListener('click', () => {
-      quizModal.classList.remove('active');
-    });
-  }
-
-  quizOpts.forEach(opt => {
-    opt.addEventListener('click', () => {
-      const type = opt.getAttribute('data-type');
-      let title = "Signature Royal Glam";
-      let desc = "Our 24k Gold HD Airbrush finish paired with Hollywood soft waves.";
-
-      if (type === 'bridal') {
-        title = "Royal Luxury Bridal Glam";
-        desc = "Full airbrush 24k gold skin prep, mink lash customization, and veil draping.";
-      } else if (type === 'engagement') {
-        title = "Sunset Romance Soft Glam";
-        desc = "Luminous glass skin with warm rose-gold eyeshadow and glossy nude lips.";
-      } else if (type === 'gala') {
-        title = "Red Carpet Couture Smokey Look";
-        desc = "Dramatic smokey champagne eyes, sculpted contouring, and velvet setting.";
-      }
-
-      document.getElementById('quizResultTitle').textContent = title;
-      document.getElementById('quizResultDesc').textContent = desc;
-
-      quizStep1.style.display = 'none';
-      quizResult.style.display = 'block';
-    });
-  });
-
-  const quizBookBtn = document.getElementById('quizBookBtn');
-  if (quizBookBtn) {
-    quizBookBtn.addEventListener('click', () => {
-      quizModal.classList.remove('active');
-    });
-  }
-
-  // ======================================================================
-  // TESTIMONIALS CAROUSEL
-  // ======================================================================
-  const testimonialsTrack = document.getElementById('testimonialsTrack');
-  const carouselPrev = document.getElementById('carouselPrev');
-  const carouselNext = document.getElementById('carouselNext');
-  const carouselDots = document.querySelectorAll('.carousel-dot');
-
-  if (testimonialsTrack && carouselPrev && carouselNext) {
-    let currentSlide = 0;
-    const totalSlides = document.querySelectorAll('.testimonial-slide').length;
-    let autoSlideInterval;
-
-    function goToSlide(index) {
-      if (index < 0) index = totalSlides - 1;
-      if (index >= totalSlides) index = 0;
-      currentSlide = index;
-      testimonialsTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
-
-      carouselDots.forEach((dot, i) => {
-        dot.classList.toggle('active', i === currentSlide);
-      });
-    }
-
-    carouselPrev.addEventListener('click', () => {
-      goToSlide(currentSlide - 1);
-      resetAutoSlide();
-    });
-
-    carouselNext.addEventListener('click', () => {
-      goToSlide(currentSlide + 1);
-      resetAutoSlide();
-    });
-
-    carouselDots.forEach(dot => {
-      dot.addEventListener('click', () => {
-        const slideIndex = parseInt(dot.getAttribute('data-slide'));
-        goToSlide(slideIndex);
-        resetAutoSlide();
-      });
-    });
-
-    // Auto-slide every 6 seconds
-    function startAutoSlide() {
-      autoSlideInterval = setInterval(() => {
-        goToSlide(currentSlide + 1);
-      }, 6000);
-    }
-
-    function resetAutoSlide() {
-      clearInterval(autoSlideInterval);
-      startAutoSlide();
-    }
-
-    startAutoSlide();
-  }
-
-  // ======================================================================
-  // BOOKING PRICE CALCULATOR
-  // ======================================================================
-  const serviceTypeSelect = document.getElementById('serviceType');
-  const guestCountSelect = document.getElementById('guestCount');
-  const bookingCalcSummary = document.getElementById('bookingCalcSummary');
-
-  function updateBookingTotal() {
-    if (!serviceTypeSelect || !guestCountSelect || !bookingCalcSummary) return;
-
-    const basePrice = parseInt(serviceTypeSelect.value) || 450;
-    const guestAddon = parseInt(guestCountSelect.value) || 0;
-    const serviceName = serviceTypeSelect.options[serviceTypeSelect.selectedIndex].text.split(' (')[0];
-
-    const total = basePrice + guestAddon;
-    bookingCalcSummary.textContent = `${serviceName} ($${total.toLocaleString()})`;
-  }
-
-  if (serviceTypeSelect && guestCountSelect) {
-    serviceTypeSelect.addEventListener('change', updateBookingTotal);
-    guestCountSelect.addEventListener('change', updateBookingTotal);
-    updateBookingTotal();
-  }
-
-  // ======================================================================
-  // FLOATING FORM LABELS
-  // ======================================================================
-  const formGroups = document.querySelectorAll('.form-group');
-  formGroups.forEach(group => {
-    const input = group.querySelector('.form-control');
-    const label = group.querySelector('label');
-    
-    if (input && label && (input.tagName === 'INPUT' || input.tagName === 'TEXTAREA') && input.type !== 'date' && input.type !== 'select-one') {
-      group.classList.add('form-group-float');
-      label.classList.add('float-label');
-      group.appendChild(label); // Move label after input for sibling combinator to work
-      
-      const placeholder = input.getAttribute('placeholder');
-      if (placeholder) {
-        input.setAttribute('data-placeholder', placeholder);
-        input.removeAttribute('placeholder');
-      }
-
-      input.addEventListener('focus', () => {
-        input.classList.add('has-value');
-        if (placeholder) input.setAttribute('placeholder', placeholder);
-      });
-
-      input.addEventListener('blur', () => {
-        if (!input.value) {
-          input.classList.remove('has-value');
-          input.removeAttribute('placeholder');
-        }
-      });
-
-      if (input.value) input.classList.add('has-value');
-    }
-  });
-
-  // ======================================================================
-  // BOOKING FORM SUBMISSION
-  // ======================================================================
-  const bookingForm = document.getElementById('bookingForm');
-  const toastNotification = document.getElementById('toastNotification');
-
-  if (bookingForm) {
-    bookingForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-
-      const name = document.getElementById('clientName').value;
-      const submitBtn = document.getElementById('submitBtn');
-
-      if (submitBtn) {
-        submitBtn.classList.add('is-loading');
-        
-        // Simulate network request
-        setTimeout(() => {
-          submitBtn.classList.remove('is-loading');
-          submitBtn.classList.add('is-success');
-          
-          if (toastNotification) {
-            document.getElementById('toastTitle').textContent = `Thank You, ${name}!`;
-            document.getElementById('toastMsg').textContent = `Your appointment request has been received. Our concierge will reach out within 24h.`;
-            toastNotification.classList.add('active');
-            
-            setTimeout(() => {
-              toastNotification.classList.remove('active');
-            }, 5000);
-          }
-          
-          setTimeout(() => {
-            submitBtn.classList.remove('is-success');
-            bookingForm.reset();
-            updateBookingTotal();
-            
-            // Reset floating labels
-            formGroups.forEach(group => {
-              const input = group.querySelector('.form-control');
-              if (input && input.tagName !== 'SELECT' && input.type !== 'date') {
-                input.classList.remove('has-value');
-                input.removeAttribute('placeholder');
-              }
-            });
-          }, 2500);
-          
-        }, 1500);
-      }
-    });
-  }
-
-  // ======================================================================
-  // ANIMATED STATISTICS COUNTERS
-  // ======================================================================
-  const statNumbers = document.querySelectorAll('.stat-number');
-  let animated = false;
-
-  function checkStatsScroll() {
-    if (animated) return;
-    const triggerBottom = window.innerHeight * 0.85;
-
-    statNumbers.forEach(stat => {
-      const rect = stat.getBoundingClientRect();
-      if (rect.top < triggerBottom) {
-        animated = true;
-        const target = parseInt(stat.getAttribute('data-target')) || 0;
-        let count = 0;
-        const duration = 2000;
-        const stepTime = Math.abs(Math.floor(duration / target));
-
-        const timer = setInterval(() => {
-          count += Math.ceil(target / 40);
-          if (count >= target) {
-            count = target;
-            clearInterval(timer);
-          }
-          if (stat.textContent.includes('%')) {
-            stat.textContent = `${count}%`;
-          } else if (stat.textContent.includes('+')) {
-            stat.textContent = `${count}+`;
+  // 6. Navigation Smooth Scroll Links
+  const allNavAnchors = document.querySelectorAll('a[href^="#"]');
+  allNavAnchors.forEach(anchor => {
+    anchor.addEventListener('click', (e) => {
+      const targetId = anchor.getAttribute('href');
+      if (targetId && targetId !== '#') {
+        const targetSection = document.querySelector(targetId);
+        if (targetSection) {
+          e.preventDefault();
+          if (lenis) {
+            lenis.scrollTo(targetSection, { offset: 0, duration: 1.4 });
           } else {
-            stat.textContent = count;
+            targetSection.scrollIntoView({ behavior: 'smooth' });
           }
-        }, stepTime || 30);
+          closeMobileDrawer();
+        }
       }
+    });
+  });
+
+  // 7. Interactive Modals Logic (Booking & Menu Drawers)
+  const bookingModal = document.getElementById('bookingModal');
+  const menuModal = document.getElementById('menuModal');
+  const lightboxModal = document.getElementById('lightboxModal');
+  const mobileDrawer = document.getElementById('mobileDrawer');
+
+  const openBookingBtns = document.querySelectorAll('.btn-glowing-gold, .trigger-booking, #mobileBookBtn');
+  const openMenuBtns = document.querySelectorAll('#openMenuBtn, .trigger-menu');
+
+  const closeBookingBtn = document.getElementById('closeBookingBtn');
+  const closeMenuBtn = document.getElementById('closeMenuBtn');
+  const closeLightboxBtn = document.getElementById('closeLightboxBtn');
+  const closeMobileDrawerBtn = document.getElementById('closeMobileDrawer');
+  const mobileToggle = document.getElementById('mobileToggle');
+
+  // Open Booking
+  openBookingBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (bookingModal) bookingModal.classList.add('open');
+      closeMobileDrawer();
+    });
+  });
+
+  // Open Menu
+  openMenuBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (menuModal) menuModal.classList.add('open');
+      closeMobileDrawer();
+    });
+  });
+
+  // Close Modals
+  if (closeBookingBtn) closeBookingBtn.addEventListener('click', () => bookingModal.classList.remove('open'));
+  if (closeMenuBtn) closeMenuBtn.addEventListener('click', () => menuModal.classList.remove('open'));
+  if (closeLightboxBtn) closeLightboxBtn.addEventListener('click', () => lightboxModal.classList.remove('open'));
+
+  [bookingModal, menuModal, lightboxModal].forEach(modal => {
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.classList.remove('open');
+      });
+    }
+  });
+
+  // Mobile Drawer Toggle
+  if (mobileToggle) {
+    mobileToggle.addEventListener('click', () => {
+      if (mobileDrawer) mobileDrawer.classList.toggle('open');
     });
   }
 
-  window.addEventListener('scroll', checkStatsScroll);
-  checkStatsScroll();
+  function closeMobileDrawer() {
+    if (mobileDrawer) mobileDrawer.classList.remove('open');
+  }
 
-  // ======================================================================
-  // KEYBOARD ACCESSIBILITY: ESC to close modals
-  // ======================================================================
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      if (lightboxModal) lightboxModal.classList.remove('active');
-      if (quizModal) quizModal.classList.remove('active');
-    }
+  if (closeMobileDrawerBtn) closeMobileDrawerBtn.addEventListener('click', closeMobileDrawer);
+
+  // 8. Menu Modal Tabs
+  const menuTabBtns = document.querySelectorAll('.menu-tab-btn');
+  const menuTabContents = document.querySelectorAll('.menu-tab-content');
+
+  menuTabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetTab = btn.getAttribute('data-tab');
+
+      menuTabBtns.forEach(b => b.classList.remove('active'));
+      menuTabContents.forEach(c => c.classList.remove('active'));
+
+      btn.classList.add('active');
+      const activeContent = document.getElementById(`tab-${targetTab}`);
+      if (activeContent) activeContent.classList.add('active');
+    });
   });
+
+  // 9. Gallery Lightbox Preview
+  const galleryThumbs = document.querySelectorAll('.trigger-lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const lightboxCaption = document.getElementById('lightboxCaption');
+
+  galleryThumbs.forEach(thumb => {
+    thumb.addEventListener('click', () => {
+      const imgSrc = thumb.getAttribute('data-img');
+      const caption = thumb.getAttribute('data-caption');
+      if (lightboxImg && imgSrc) {
+        lightboxImg.src = imgSrc;
+        lightboxCaption.textContent = caption || 'ARIA LAURENT VIP Suite';
+        lightboxModal.classList.add('open');
+      }
+    });
+  });
+
+  // 10. Form Submissions & Toast Notifications
+  window.handleFullBooking = function(e) {
+    e.preventDefault();
+    const bookingName = document.getElementById('bookingName')?.value || 'Valued Guest';
+    if (bookingModal) bookingModal.classList.remove('open');
+    showToast('VIP Booking Confirmed', `Thank you, ${bookingName}. Concierge will confirm your INR (₹) booking request within 1 hour.`);
+  };
+
+  window.showBookingSuccess = function() {
+    showToast('Enquiry Received', 'Thank you for reaching out to ARIA LAURENT. Our team will contact you shortly.');
+  };
+
+  function showToast(title, message) {
+    const toast = document.getElementById('toastNotif');
+    const toastTitle = document.getElementById('toastTitle');
+    const toastMessage = document.getElementById('toastMessage');
+
+    if (toastTitle) toastTitle.textContent = title;
+    if (toastMessage) toastMessage.textContent = message;
+
+    if (toast) {
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 4500);
+    }
+  }
+
+  // Set default minimum booking date to today
+  const bookingDateInput = document.getElementById('bookingDate');
+  if (bookingDateInput) {
+    const today = new Date().toISOString().split('T')[0];
+    bookingDateInput.min = today;
+    bookingDateInput.value = today;
+  }
+
+  // 11. Category Filter Pill Toggle (Section 3 "The Craft")
+  const catPills = document.querySelectorAll('.cat-pill');
+  catPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      catPills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+    });
+  });
+
+  // 12. Global showToast for newsletter form
+  window.showToast = showToast;
 });
