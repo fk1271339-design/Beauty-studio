@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }, 100);
 
-  // 3. Custom Golden Magnetic Cursor (Strict Desktop Only)
+  // 3. Custom Golden Magnetic Cursor (Desktop Only)
   const cursorDot = document.getElementById('cursorDot');
   const cursorRing = document.getElementById('cursorRing');
   let mouseX = -100, mouseY = -100;
@@ -44,39 +44,52 @@ document.addEventListener('DOMContentLoaded', () => {
       cursorDot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
     });
 
+    document.documentElement.addEventListener('mouseleave', () => {
+      cursorDot.style.opacity = '0';
+      cursorRing.style.opacity = '0';
+    });
+
+    document.documentElement.addEventListener('mouseenter', () => {
+      cursorDot.style.opacity = '1';
+      cursorRing.style.opacity = '1';
+    });
+
     function renderCursor() {
-      ringX += (mouseX - ringX) * 0.2;
-      ringY += (mouseY - ringY) * 0.2;
+      // Responsive smooth lerp interpolation
+      ringX += (mouseX - ringX) * 0.35;
+      ringY += (mouseY - ringY) * 0.35;
       cursorRing.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
       requestAnimationFrame(renderCursor);
     }
     requestAnimationFrame(renderCursor);
 
-    const hoverables = document.querySelectorAll('button, a, .gallery-thumb, input, select, label, .mini-service-box, .pill-card, .spa-card');
-    hoverables.forEach((el) => {
-      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
-      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+    // Event delegation for cursor hover state on interactive elements
+    document.addEventListener('mouseover', (e) => {
+      if (e.target.closest('button, a, .gallery-thumb, input, select, label, .mini-service-box, .pill-card, .spa-card, .cat-pill')) {
+        document.body.classList.add('cursor-hover');
+      }
+    });
+
+    document.addEventListener('mouseout', (e) => {
+      if (e.target.closest('button, a, .gallery-thumb, input, select, label, .mini-service-box, .pill-card, .spa-card, .cat-pill')) {
+        document.body.classList.remove('cursor-hover');
+      }
     });
   } else {
     if (cursorDot) cursorDot.style.display = 'none';
     if (cursorRing) cursorRing.style.display = 'none';
   }
 
-  // 4. Initialize Lenis Smooth Scroll
+  // 4. Initialize Lenis Smooth Scroll Engine
   let lenis = null;
   if (typeof Lenis !== 'undefined') {
     lenis = new Lenis({
-      duration: 1.2,
+      duration: 0.9,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
+      wheelMultiplier: 1.0,
       touchMultiplier: 1.5,
     });
-
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
   }
 
   // 5. Scroll Animations & GSAP 5-Section Crossfade Engine
@@ -84,6 +97,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
       console.warn('GSAP or ScrollTrigger not loaded, falling back to Intersection Observer');
       fallbackIntersectionObserver();
+      if (lenis) {
+        function raf(time) {
+          lenis.raf(time);
+          requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+      }
       return;
     }
 
@@ -232,11 +252,25 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeMobileDrawerBtn = document.getElementById('closeMobileDrawer');
   const mobileToggle = document.getElementById('mobileToggle');
 
+  function openModal(modal) {
+    if (modal) {
+      modal.classList.add('open');
+      if (lenis) lenis.stop();
+    }
+  }
+
+  function closeModal(modal) {
+    if (modal) {
+      modal.classList.remove('open');
+      if (lenis) lenis.start();
+    }
+  }
+
   // Open Booking
   openBookingBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
-      if (bookingModal) bookingModal.classList.add('open');
+      openModal(bookingModal);
       closeMobileDrawer();
     });
   });
@@ -245,20 +279,20 @@ document.addEventListener('DOMContentLoaded', () => {
   openMenuBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
-      if (menuModal) menuModal.classList.add('open');
+      openModal(menuModal);
       closeMobileDrawer();
     });
   });
 
   // Close Modals
-  if (closeBookingBtn) closeBookingBtn.addEventListener('click', () => bookingModal.classList.remove('open'));
-  if (closeMenuBtn) closeMenuBtn.addEventListener('click', () => menuModal.classList.remove('open'));
-  if (closeLightboxBtn) closeLightboxBtn.addEventListener('click', () => lightboxModal.classList.remove('open'));
+  if (closeBookingBtn) closeBookingBtn.addEventListener('click', () => closeModal(bookingModal));
+  if (closeMenuBtn) closeMenuBtn.addEventListener('click', () => closeModal(menuModal));
+  if (closeLightboxBtn) closeLightboxBtn.addEventListener('click', () => closeModal(lightboxModal));
 
   [bookingModal, menuModal, lightboxModal].forEach(modal => {
     if (modal) {
       modal.addEventListener('click', (e) => {
-        if (e.target === modal) modal.classList.remove('open');
+        if (e.target === modal) closeModal(modal);
       });
     }
   });
@@ -305,7 +339,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (lightboxImg && imgSrc) {
         lightboxImg.src = imgSrc;
         lightboxCaption.textContent = caption || 'ARIA LAURENT VIP Suite';
-        lightboxModal.classList.add('open');
+        openModal(lightboxModal);
       }
     });
   });
@@ -314,7 +348,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.handleFullBooking = function(e) {
     e.preventDefault();
     const bookingName = document.getElementById('bookingName')?.value || 'Valued Guest';
-    if (bookingModal) bookingModal.classList.remove('open');
+    closeModal(bookingModal);
     showToast('VIP Booking Confirmed', `Thank you, ${bookingName}. Concierge will confirm your INR (₹) booking request within 1 hour.`);
   };
 

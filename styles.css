@@ -43,8 +43,20 @@ html {
   color: var(--text-cream);
   font-family: var(--font-sans);
   overflow-x: hidden;
-  scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
+}
+
+/* LENIS SMOOTH SCROLL OPTIMIZATIONS */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
 }
 
 body {
@@ -65,38 +77,42 @@ svg, .lucide {
 }
 
 /* GLOWING MAGNETIC CURSOR (DESKTOP) */
-.cursor-dot {
+.cursor-dot, .cursor-ring {
   position: fixed;
   top: 0;
   left: 0;
+  pointer-events: none !important;
+  will-change: transform;
+}
+
+.cursor-dot {
   width: 6px;
   height: 6px;
   background-color: var(--champagne-light);
   border-radius: 50%;
-  pointer-events: none !important;
   z-index: 9999;
-  transform: translate(-50%, -50%);
+  margin-left: -3px;
+  margin-top: -3px;
   box-shadow: 0 0 10px var(--champagne-gold);
 }
 
 .cursor-ring {
-  position: fixed;
-  top: 0;
-  left: 0;
   width: 32px;
   height: 32px;
   border: 1px solid rgba(212, 175, 55, 0.7);
   border-radius: 50%;
-  pointer-events: none !important;
   z-index: 9998;
-  transform: translate(-50%, -50%);
-  transition: width 0.25s var(--ease-out-expo), height 0.25s var(--ease-out-expo), border-color 0.25s ease;
+  margin-left: -16px;
+  margin-top: -16px;
+  transition: width 0.2s var(--ease-out-expo), height 0.2s var(--ease-out-expo), margin 0.2s var(--ease-out-expo), border-color 0.2s ease, background-color 0.2s ease;
   box-shadow: 0 0 15px var(--gold-glow);
 }
 
 body.cursor-hover .cursor-ring {
   width: 46px;
   height: 46px;
+  margin-left: -23px;
+  margin-top: -23px;
   border-color: var(--champagne-bright);
   background-color: rgba(212, 175, 55, 0.12);
 }
